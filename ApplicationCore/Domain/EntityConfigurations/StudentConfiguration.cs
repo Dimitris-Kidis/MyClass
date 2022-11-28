@@ -13,8 +13,6 @@ namespace ApplicationCore.Domain.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Student> builder)
         {
-            //builder.HasOne(user => user.Users).
-            //    .HasForeignKey(x => x.Id);
         }
     }
 }
