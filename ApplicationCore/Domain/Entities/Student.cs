@@ -10,8 +10,10 @@ namespace ApplicationCore.Domain.Entities
     {
 
         public ICollection<User> Users { get; set; }
-        public ICollection<Lesson> Lessons { get; set; }
-        public string ClassName { get; set; }
+        public ICollection<Grade> Grades { get; set; }
+        public ICollection<AbsentList> AbsentLists { get; set; }
+        public Class Class { get; set; }
+
 
 
     }

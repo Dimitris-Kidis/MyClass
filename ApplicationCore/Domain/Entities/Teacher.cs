@@ -10,9 +10,11 @@ namespace ApplicationCore.Domain.Entities
     {
         //public int UserId { get; set; }
         public ICollection<User> Users { get; set; }
-        public ICollection<Lesson> Lessons { get; set; }
+        public ICollection<Grade> Grades { get; set; }
+        public ICollection<ClassTeacher> ClassesTeachers { get; set; }
         public string Position { get; set; }
         public string Description { get; set; }
         public string SubjectName { get; set; }
+         
     }
 }
