@@ -8,15 +8,19 @@ namespace ApplicationCore.Domain
 
     public class MyClassDbContext : DbContext
     {
-        public DbSet<User> Users { get; set; }
-        public DbSet<Student> Students { get; set; }
-        public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<AbsentList> AbsentLists { get; set; }
+        public DbSet<Class> Classes { get; set; }
+        public DbSet<ClassTeacher> ClassesTeachers { get; set; }
+        public DbSet<Grade> Grades { get; set; }
         public DbSet<Image> Images { get; set; }
+        public DbSet<LessonType> LessonTypes { get; set; }
+        public DbSet<Note> Notes { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<Student> Students { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+        public DbSet<Teacher> Teachers { get; set; }
+        public DbSet<User> Users { get; set; }
 
-
-
-
-   
 
         public MyClassDbContext()
         {

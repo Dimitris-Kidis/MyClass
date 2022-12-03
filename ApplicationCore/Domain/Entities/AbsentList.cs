@@ -12,5 +12,8 @@ namespace ApplicationCore.Domain.Entities
         public Student Student { get; set; }
         public int SubjectId { get; set; }
         public Subject Subject { get; set; }
+        public int Courses { get; set; }
+        public int Labs { get; set; }
+        public int Seminars { get; set; }
     }
 }

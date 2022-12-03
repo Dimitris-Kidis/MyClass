@@ -12,6 +12,7 @@ namespace ApplicationCore.Domain.Entities
         public ICollection<User> Users { get; set; }
         public ICollection<Grade> Grades { get; set; }
         public ICollection<ClassTeacher> ClassesTeachers { get; set; }
+        public ICollection<Schedule> Schedules { get; set; }
         public string Position { get; set; }
         public string Description { get; set; }
         public string SubjectName { get; set; }

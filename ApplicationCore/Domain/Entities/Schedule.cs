@@ -14,6 +14,8 @@ namespace ApplicationCore.Domain.Entities
         public Subject Subject { get; set; }
         public int LessonTypeId { get; set; }
         public LessonType LessonType { get; set; }
+        public int TeacherId { get; set; }
+        public Teacher Teacher { get; set; }
         public DateTimeOffset DateAndTime { get; set; }
         public string Cabinet { get; set; }
 
