@@ -16,6 +16,7 @@ namespace ApplicationCore.Domain.Entities
         public string Position { get; set; }
         public string Description { get; set; }
         public string SubjectName { get; set; }
+        public string Experience { get; set; }
          
     }
 }

@@ -35,10 +35,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddRepository()
     .AddDbContext(builder)
-    //.AddMapper()
+    .AddMapper()
     .AddCorsPolicy()
     .AddSwaggerServices()
-    //.AddMediatRConfigs()
+    .AddMediatRConfigs()
     .AddControllers(option => option.Filters.Add(typeof(ApiExceptionFilter)));
     //.AddValidators();
 builder.Services.AddJwt().AddIdentityConfiguration();
