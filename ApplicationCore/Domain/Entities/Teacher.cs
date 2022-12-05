@@ -15,7 +15,6 @@ namespace ApplicationCore.Domain.Entities
         public ICollection<Schedule> Schedules { get; set; }
         public string Position { get; set; }
         public string Description { get; set; }
-        public string SubjectName { get; set; }
         public string Experience { get; set; }
          
     }
