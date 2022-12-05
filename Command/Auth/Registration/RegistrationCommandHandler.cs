@@ -17,18 +17,21 @@ namespace Command.Auth.Registration
         private readonly IClassRepository<Teacher> _teachersManager;
         private readonly IClassRepository<Grade> _gradesManager;
         private readonly IClassRepository<ClassTeacher> _classesAndTeachersManager;
+        private readonly IClassRepository<AbsentList> _absentManager;
         public RegistrationCommandHandler(
             UserManager<User> userManager,
             IClassRepository<Student> studentsManager,
             IClassRepository<Teacher> teachersManager,
             IClassRepository<ClassTeacher> classesAndTeachersManager,
-            IClassRepository<Grade> gradesManager)
+            IClassRepository<Grade> gradesManager,
+            IClassRepository<AbsentList> absentManager)
         {
             _userManager = userManager;
             _studentsManager = studentsManager;
             _teachersManager = teachersManager;
             _classesAndTeachersManager = classesAndTeachersManager;
             _gradesManager = gradesManager;
+            _absentManager = absentManager;
         }
         public async Task<int> Handle(RegistrationCommand command, CancellationToken cancellationToken)
         {
@@ -46,6 +49,7 @@ namespace Command.Auth.Registration
                 _studentsManager.Add(student);
                 _studentsManager.Save();
                 var stud = student.Id;
+                
 
                 isAdmin = false;
                 isTeacher = null;
@@ -77,6 +81,7 @@ namespace Command.Auth.Registration
 
                 //Grade emptyGrade = new Grade();
                 var gradeList = new List<Grade>();
+                var absList = new List<AbsentList>();
 
                 foreach (var studId in studsIds)
                 {
@@ -88,12 +93,24 @@ namespace Command.Auth.Registration
                             SubjectId = (int)command.SubjectId,
                             StudentId = studId,
                             StudentGrade = 0
-                    };
+                        };
                         gradeList.Add(emptyGrade);
                     }
+                    AbsentList al = new AbsentList
+                    {
+                        SubjectId = (int)command.SubjectId,
+                        StudentId = studId,
+                        Labs = 0,
+                        Seminars = 0,
+                        Courses = 0
+                    };
+                    absList.Add(al);
                 }
                 _gradesManager.AddRange(gradeList);
                 _gradesManager.Save();
+
+                _absentManager.AddRange(absList);
+                _absentManager.Save();
 
                 
 

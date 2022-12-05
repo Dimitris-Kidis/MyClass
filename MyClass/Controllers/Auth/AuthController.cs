@@ -12,7 +12,7 @@ using MyClass.Identity;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
-namespace MyClass.Controllers.AuthController
+namespace MyClass.Controllers.Auth
 {
     [Route("api/auth")]
     [ApiController]
@@ -75,7 +75,7 @@ namespace MyClass.Controllers.AuthController
                 var encodedAdminToken = tokenAdminHandler.WriteToken(jwtAdminSecurityToken);
                 return Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = encodedAdminToken });
             }
-            
+
             if (user.TeacherId != null)
             {
                 var signinCredentials = new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256);
@@ -97,9 +97,10 @@ namespace MyClass.Controllers.AuthController
 
                 var encodedToken = tokenHandler.WriteToken(jwtSecurityToken);
                 return Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = encodedToken });
-            } else
+            }
+            else
             {
-                
+
                 var signinCredentials = new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256);
                 var jwtSecurityToken = new JwtSecurityToken(
                      issuer: AuthOptions.ISSUER,
@@ -121,7 +122,7 @@ namespace MyClass.Controllers.AuthController
                 var encodedToken = tokenHandler.WriteToken(jwtSecurityToken);
                 return Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = encodedToken });
             }
-            
+
         }
 
         [HttpPost]
