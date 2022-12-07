@@ -12,6 +12,6 @@ namespace ApplicationCore.Domain.Entities
         public ICollection<Grade> Grades { get; set; }
         public ICollection<ClassTeacher> ClassesTeachers { get; set; }
         public ICollection<Schedule> Schedules { get; set; }
-        public ICollection<AbsentList> AbsentLists { get; set; }
+        //public ICollection<AbsentList> AbsentLists { get; set; }
     }
 }

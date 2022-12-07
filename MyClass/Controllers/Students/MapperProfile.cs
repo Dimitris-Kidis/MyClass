@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MyClass.Controllers.Students.ViewModels;
+using Query.Grades.GetGradesWithAbsents;
 using Query.Students.GetAboutInfo;
 using Query.Students.GetAllClassmates;
 using Query.Subjects.GetSubjectList;
@@ -17,6 +18,9 @@ namespace MyClass.Controllers.Students
 
             CreateMap<ClassmatesDto, ClassmatesViewModel>();
             CreateMap<IEnumerable<ClassmatesDto>, IEnumerable<ClassmatesViewModel>>();
+
+            CreateMap<GradesWithAbsentsDto, GradesWithAbsentsViewModel>();
+            CreateMap<IEnumerable<GradesWithAbsentsDto>, IEnumerable<GradesWithAbsentsViewModel>>();
         }
 
     }

@@ -19,10 +19,10 @@ namespace MyClass.Controllers.Teachers
             _mediator = mediator;
         }
 
-        [HttpGet("student-{id}")]
-        public async Task<IActionResult> GetAllTeachersByStudentId(int id)
+        [HttpGet("student-{studentId}")]
+        public async Task<IActionResult> GetAllTeachersByStudentId(int studentId)
         {
-            var result = await _mediator.Send(new GetAllStudentTeachersByStudentIdQuery { Id = id });
+            var result = await _mediator.Send(new GetAllStudentTeachersByStudentIdQuery { Id = studentId });
             if (result == null)
             {
                 return BadRequest("Entity is not found");

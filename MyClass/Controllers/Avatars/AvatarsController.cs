@@ -26,10 +26,10 @@ namespace MyClass.Controllers.Avatars
             return Ok();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAvatar(int id)
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> DeleteAvatar(int userId)
         {
-            var result = await _mediator.Send(new DeleteAvatarCommand { UserId = id });
+            var result = await _mediator.Send(new DeleteAvatarCommand { UserId = userId });
             if (result == "") return NotFound("There's no user with such id");
             return Ok(result);
         }

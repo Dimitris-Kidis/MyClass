@@ -17,28 +17,24 @@ namespace Command.Auth.Registration
         private readonly IClassRepository<Teacher> _teachersManager;
         private readonly IClassRepository<Grade> _gradesManager;
         private readonly IClassRepository<ClassTeacher> _classesAndTeachersManager;
-        private readonly IClassRepository<AbsentList> _absentManager;
         public RegistrationCommandHandler(
             UserManager<User> userManager,
             IClassRepository<Student> studentsManager,
             IClassRepository<Teacher> teachersManager,
             IClassRepository<ClassTeacher> classesAndTeachersManager,
-            IClassRepository<Grade> gradesManager,
-            IClassRepository<AbsentList> absentManager)
+            IClassRepository<Grade> gradesManager)
         {
             _userManager = userManager;
             _studentsManager = studentsManager;
             _teachersManager = teachersManager;
             _classesAndTeachersManager = classesAndTeachersManager;
             _gradesManager = gradesManager;
-            _absentManager = absentManager;
         }
         public async Task<int> Handle(RegistrationCommand command, CancellationToken cancellationToken)
         {
             bool isAdmin = false;
             int? isTeacher = null;
             int? isStudent = null;
-            
 
             if (command.Type == 0)
             {
@@ -49,12 +45,42 @@ namespace Command.Auth.Registration
                 _studentsManager.Add(student);
                 _studentsManager.Save();
                 var stud = student.Id;
-                
+
+                var teacherSubjectPairs = _classesAndTeachersManager
+                    .GetAll()
+                    .Where(stud => stud.ClassId == (int)command.ClassId)
+                    .Select(stud => new { TeacherId = stud.TeacherId, SubjectId = stud.SubjectId });
+
+
+                if (teacherSubjectPairs.Any())
+                {
+                    var gradeList = new List<Grade>();
+                    foreach (var teacherSubjectPair in teacherSubjectPairs)
+                    {
+                        Grade emptyGrade = new Grade
+                        {
+                            TeacherId = teacherSubjectPair.TeacherId,
+                            SubjectId = teacherSubjectPair.SubjectId,
+                            StudentId = stud,
+                            GradeOne = 0,
+                            GradeTwo = 0,
+                            GradeThree = 0,
+                            GradeFour = 0,
+                            Labs = 0,
+                            Seminars = 0,
+                            Courses = 0
+                        };
+                        gradeList.Add(emptyGrade);
+                    }
+                    _gradesManager.AddRange(gradeList);
+                    _gradesManager.Save();
+                }
 
                 isAdmin = false;
                 isTeacher = null;
                 isStudent = stud;
-            } else if (command.Type == 1)
+            }
+            else if (command.Type == 1)
             {
                 Teacher teacher = new Teacher
                 {
@@ -79,45 +105,38 @@ namespace Command.Auth.Registration
 
                 var studsIds = _studentsManager.GetAll().Where(stud => stud.ClassId == (int)command.ClassId).Select(stud => stud.Id);
 
-                //Grade emptyGrade = new Grade();
                 var gradeList = new List<Grade>();
-                var absList = new List<AbsentList>();
 
                 foreach (var studId in studsIds)
                 {
-                    for (int i = 0; i < 4; i++)
+
+                    Grade emptyGrade = new Grade
                     {
-                        Grade emptyGrade = new Grade
-                        {
-                            TeacherId = teach,
-                            SubjectId = (int)command.SubjectId,
-                            StudentId = studId,
-                            StudentGrade = 0
-                        };
-                        gradeList.Add(emptyGrade);
-                    }
-                    AbsentList al = new AbsentList
-                    {
+                        TeacherId = teach,
                         SubjectId = (int)command.SubjectId,
                         StudentId = studId,
+                        GradeOne = 0,
+                        GradeTwo = 0,
+                        GradeThree = 0,
+                        GradeFour = 0,
                         Labs = 0,
                         Seminars = 0,
                         Courses = 0
                     };
-                    absList.Add(al);
+                    gradeList.Add(emptyGrade);
+
                 }
                 _gradesManager.AddRange(gradeList);
                 _gradesManager.Save();
 
-                _absentManager.AddRange(absList);
-                _absentManager.Save();
 
-                
+
 
                 isAdmin = false;
                 isTeacher = teach;
                 isStudent = null;
-            } else
+            }
+            else
             {
                 isAdmin = true;
                 isTeacher = null;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ApplicationCore.Domain.Entities
+﻿namespace ApplicationCore.Domain.Entities
 {
     public class Grade : BaseEntity
     {
@@ -14,7 +8,13 @@ namespace ApplicationCore.Domain.Entities
         public Teacher Teacher { get; set; }
         public int SubjectId { get; set; }
         public Subject Subject { get; set; }
-        public float StudentGrade { get; set; }
+        public float GradeOne { get; set; }
+        public float GradeTwo { get; set; }
+        public float GradeThree { get; set; }
+        public float GradeFour { get; set; }
+        public int Courses { get; set; }
+        public int Labs { get; set; }
+        public int Seminars { get; set; }
 
     }
 }

@@ -39,8 +39,8 @@ builder.Services
     .AddCorsPolicy()
     .AddSwaggerServices()
     .AddMediatRConfigs()
-    .AddControllers(option => option.Filters.Add(typeof(ApiExceptionFilter)));
-    //.AddValidators();
+    .AddControllers(option => option.Filters.Add(typeof(ApiExceptionFilter)))
+    .AddValidators();
 builder.Services.AddJwt().AddIdentityConfiguration();
 
 

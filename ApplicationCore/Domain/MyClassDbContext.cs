@@ -8,7 +8,6 @@ namespace ApplicationCore.Domain
 
     public class MyClassDbContext : DbContext
     {
-        public DbSet<AbsentList> AbsentLists { get; set; }
         public DbSet<Class> Classes { get; set; }
         public DbSet<ClassTeacher> ClassesTeachers { get; set; }
         public DbSet<Grade> Grades { get; set; }

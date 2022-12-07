@@ -20,10 +20,10 @@ namespace MyClass.Controllers.Notes
             _mediator = mediator;
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetAllNotesByUserId(int id)
+        [HttpGet("{userId}")]
+        public async Task<IActionResult> GetAllNotesByUserId(int userId)
         {
-            var result = await _mediator.Send(new GetAllNotesByUserIdQuery { Id = id });
+            var result = await _mediator.Send(new GetAllNotesByUserIdQuery { Id = userId });
             if (result == null || result.Count() == 0)
             {
                 return BadRequest("Entity is not found");
@@ -39,10 +39,10 @@ namespace MyClass.Controllers.Notes
             return Ok(result);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteNoteById(int id)
+        [HttpDelete("{noteId}")]
+        public async Task<IActionResult> DeleteNoteByNoteId(int noteId)
         {
-            var result = await _mediator.Send(new DeleteNoteByIdCommand { Id = id });
+            var result = await _mediator.Send(new DeleteNoteByIdCommand { Id = noteId });
             if (result == -1) return NotFound("There's no note with such id");
             return Ok(result);
         }

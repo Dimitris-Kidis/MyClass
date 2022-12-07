@@ -22,57 +22,6 @@ namespace ApplicationCore.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("ApplicationCore.Domain.Entities.AbsentList", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Courses")
-                        .HasColumnType("int");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Labs")
-                        .HasColumnType("int");
-
-                    b.Property<DateTimeOffset?>("LastModifiedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsConcurrencyToken()
-                        .IsRequired()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("rowversion");
-
-                    b.Property<int>("Seminars")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SubjectId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StudentId");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("AbsentLists");
-                });
-
             modelBuilder.Entity("ApplicationCore.Domain.Entities.Class", b =>
                 {
                     b.Property<int>("Id")
@@ -164,12 +113,30 @@ namespace ApplicationCore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("Courses")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("GradeFour")
+                        .HasColumnType("real");
+
+                    b.Property<float>("GradeOne")
+                        .HasColumnType("real");
+
+                    b.Property<float>("GradeThree")
+                        .HasColumnType("real");
+
+                    b.Property<float>("GradeTwo")
+                        .HasColumnType("real");
+
+                    b.Property<int>("Labs")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("LastModifiedAt")
                         .HasColumnType("datetimeoffset");
@@ -183,8 +150,8 @@ namespace ApplicationCore.Migrations
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
 
-                    b.Property<float>("StudentGrade")
-                        .HasColumnType("real");
+                    b.Property<int>("Seminars")
+                        .HasColumnType("int");
 
                     b.Property<int>("StudentId")
                         .HasColumnType("int");
@@ -648,25 +615,6 @@ namespace ApplicationCore.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ApplicationCore.Domain.Entities.AbsentList", b =>
-                {
-                    b.HasOne("ApplicationCore.Domain.Entities.Student", "Student")
-                        .WithMany("AbsentLists")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ApplicationCore.Domain.Entities.Subject", "Subject")
-                        .WithMany("AbsentLists")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Student");
-
-                    b.Navigation("Subject");
-                });
-
             modelBuilder.Entity("ApplicationCore.Domain.Entities.ClassTeacher", b =>
                 {
                     b.HasOne("ApplicationCore.Domain.Entities.Class", "Class")
@@ -829,8 +777,6 @@ namespace ApplicationCore.Migrations
 
             modelBuilder.Entity("ApplicationCore.Domain.Entities.Student", b =>
                 {
-                    b.Navigation("AbsentLists");
-
                     b.Navigation("Grades");
 
                     b.Navigation("Users");
@@ -838,8 +784,6 @@ namespace ApplicationCore.Migrations
 
             modelBuilder.Entity("ApplicationCore.Domain.Entities.Subject", b =>
                 {
-                    b.Navigation("AbsentLists");
-
                     b.Navigation("ClassesTeachers");
 
                     b.Navigation("Grades");

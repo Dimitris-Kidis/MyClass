@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyClass.Controllers.Students.ViewModels;
+using Query.Grades.GetGradesWithAbsents;
 using Query.Students.GetAboutInfo;
 using Query.Students.GetAllClassmates;
 using Query.Subjects.GetSubjectList;
@@ -20,10 +21,10 @@ namespace MyClass.Controllers.Students
             _mediator = mediator;
         }
 
-        [HttpGet("about-info-{id}")]
-        public async Task<IActionResult> GetAboutInfo(int id)
+        [HttpGet("about-info-{studentId}")]
+        public async Task<IActionResult> GetAboutInfo(int studentId)
         {
-            var result = await _mediator.Send(new GetAboutInfoByIdQuery { Id = id });
+            var result = await _mediator.Send(new GetAboutInfoByIdQuery { Id = studentId });
             if (result == null)
             {
                 return BadRequest("Entity is not found");
@@ -31,10 +32,10 @@ namespace MyClass.Controllers.Students
             return Ok(_mapper.Map<AboutInfoViewModel>(result));
         }
 
-        [HttpGet("subjects-{id}")]
-        public async Task<IActionResult> GetAllSubjectsWithTeachersByClassId(int id)
+        [HttpGet("subjects-{classId}")]
+        public async Task<IActionResult> GetAllSubjectsWithTeachersByClassId(int classId)
         {
-            var result = await _mediator.Send(new GetSubjectListQuery { ClassId = id });
+            var result = await _mediator.Send(new GetSubjectListQuery { ClassId = classId });
             if (result == null)
             {
                 return BadRequest("Entity is not found");
@@ -42,15 +43,26 @@ namespace MyClass.Controllers.Students
             return Ok(result.Select(_mapper.Map<SubjectsWithTeachersViewModel>));
         }
 
-        [HttpGet("classmates-{id}")]
-        public async Task<IActionResult> GetAllClassmatesByClassId(int id)
+        [HttpGet("classmates-{classId}")]
+        public async Task<IActionResult> GetAllClassmatesByClassId(int classId)
         {
-            var result = await _mediator.Send(new GetAllClassmatesQuery { ClassId = id });
+            var result = await _mediator.Send(new GetAllClassmatesQuery { ClassId = classId });
             if (result == null)
             {
                 return BadRequest("Entity is not found");
             }
             return Ok(result.Select(_mapper.Map<ClassmatesViewModel>));
+        }
+
+        [HttpGet("grades-{studentId}")]
+        public async Task<IActionResult> GetGradesWithAbsentsByStudentId(int studentId)
+        {
+            var result = await _mediator.Send(new GetGradesWithAbsentsQuery { StudentId = studentId });
+            if (result == null)
+            {
+                return BadRequest("Entity is not found");
+            }
+            return Ok(result.Select(_mapper.Map<GradesWithAbsentsViewModel>));
         }
     }
 }
