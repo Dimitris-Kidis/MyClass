@@ -4,6 +4,8 @@ using Query.Grades.GetGradesWithAbsents;
 using Query.Students.GetAboutInfo;
 using Query.Students.GetAllClassmates;
 using Query.Subjects.GetSubjectList;
+using Query.Teachers.GetAboutInfo;
+using AboutInfoDto = Query.Students.GetAboutInfo.AboutInfoDto;
 
 namespace MyClass.Controllers.Students
 {

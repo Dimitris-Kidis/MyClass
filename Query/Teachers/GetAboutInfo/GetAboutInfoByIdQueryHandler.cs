@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Query.Students.GetAboutInfo
+namespace Query.Teachers.GetAboutInfo
 {
     public class GetAboutInfoByIdQueryHandler : IRequestHandler<GetAboutInfoByIdQuery, AboutInfoDto>
     {
@@ -45,23 +45,18 @@ namespace Query.Students.GetAboutInfo
         {
             var user = _userTeacherRepository.FindBy(user => user.Id == request.Id).FirstOrDefault();
             
-            var classId = _studRepository.FindBy(stud => stud.Id == user.StudentId).FirstOrDefault().ClassId;
-
             var fullName = user.FirstName + " " + user.LastName;
             var dateOfBirth = user.DateOfBirth.ToString("d", new CultureInfo("es-ES"));
-            var className = _classRepository.FindBy(classes => classes.Id == classId).FirstOrDefault().ClassName;
-            var numberOfClassmates = _studRepository.GetAll().Where(stud => stud.ClassId == classId).Count();
-            var numberOfSubjects = _classTeacherRepository.GetAll().Where(classes => classes.ClassId == classId).Count();
-            var numberOfTeachers = _classTeacherRepository.GetAll().Where(classes => classes.ClassId == classId).ToList().DistinctBy(dis => dis.TeacherId).Count();
+
+            var numberOfSubjects = _classTeacherRepository.GetAll().Where(classes => classes.TeacherId == user.TeacherId).Count();
+            var numberOfClasses = _classTeacherRepository.GetAll().Where(classes => classes.TeacherId == user.TeacherId).ToList().DistinctBy(dis => dis.ClassId).Count();
 
             var aboutInfo = new AboutInfoDto
             {
                 FullName = fullName,
                 DateOfBirth = dateOfBirth,
-                ClassName = className,
-                NumberOfClassMates = numberOfClassmates,
                 NumberOfSubjects = numberOfSubjects,
-                NumberOfTeachers = numberOfTeachers
+                NumberOfClasses = numberOfClasses
             };
 
             return _mapper.Map<AboutInfoDto>(aboutInfo);

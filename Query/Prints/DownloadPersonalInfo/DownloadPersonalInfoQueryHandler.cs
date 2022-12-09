@@ -148,6 +148,19 @@ namespace Query.Prints.DownloadPersonalInfo
                      Seminars = grade.Seminars,
                  }).ToList();
 
+            var newPerson = new InfoData
+            {
+                FullName = fullName,
+                DateOfBirth = dateOfBirth,
+                ClassName = className,
+                JoinedOn = joinedOn,
+                AvatarLink = avatarLink,
+                NumberOfClassmates = numberOfClassmates,
+                NumberOfSubjects = numberOfSubjects,
+                NumberOfTeachers = numberOfTeachers,
+                ActualDate = actualDate
+            };
+
             var teachersWithSubjects =
                 (from subject in subjects
                  join grade in grades on subject.Id equals grade.SubjectId
@@ -167,14 +180,14 @@ namespace Query.Prints.DownloadPersonalInfo
                 tables += 
                     @$"
                     <tr>    
-                            <td style='text-align: center;'>{gradesStud[i].Subject}</td>
-                            <td style='text-align: center;'>{gradesStud[i].GradeOne}</td>
-                            <td style='text-align: center;'>{gradesStud[i].GradeTwo}</td>
-                            <td style='text-align: center;'>{gradesStud[i].GradeThree}</td>
-                            <td style='text-align: center;'>{gradesStud[i].GradeFour}</td>
-                            <td style='text-align: center;'>{gradesStud[i].Courses}</td>
-                            <td style='text-align: center;'>{gradesStud[i].Labs}</td>
-                            <td style='text-align: center;'>{gradesStud[i].Seminars}</td>
+                        <td style='text-align: center;'>{gradesStud[i].Subject}</td>
+                        <td style='text-align: center;'>{gradesStud[i].GradeOne}</td>
+                        <td style='text-align: center;'>{gradesStud[i].GradeTwo}</td>
+                        <td style='text-align: center;'>{gradesStud[i].GradeThree}</td>
+                        <td style='text-align: center;'>{gradesStud[i].GradeFour}</td>
+                        <td style='text-align: center;'>{gradesStud[i].Courses}</td>
+                        <td style='text-align: center;'>{gradesStud[i].Labs}</td>
+                        <td style='text-align: center;'>{gradesStud[i].Seminars}</td>
                     </tr>
                     ";
             }
@@ -188,28 +201,13 @@ namespace Query.Prints.DownloadPersonalInfo
                 tables +=
                     @$"
                     <tr>    
-                            <td style='text-align: center;'>{teachersWithSubjects[i].Subject}</td>
-                            <td style='text-align: center;'>{teachersWithSubjects[i].Teacher}</td>
+                        <td style='text-align: center;'>{teachersWithSubjects[i].Subject}</td>
+                        <td style='text-align: center;'>{teachersWithSubjects[i].Teacher}</td>
                     </tr>
                     ";
             }
             _htmlTemplate += tables;
-
-
             _htmlTemplate += _tail;
-
-            var newPerson = new InfoData
-            {
-                FullName = fullName,
-                DateOfBirth = dateOfBirth,
-                ClassName = className,
-                JoinedOn = joinedOn,
-                AvatarLink = avatarLink,
-                NumberOfClassmates = numberOfClassmates,
-                NumberOfSubjects = numberOfSubjects,
-                NumberOfTeachers = numberOfTeachers,
-                ActualDate = actualDate
-            };
 
             var template = Handlebars.Compile(_htmlTemplate);
             var html = template(newPerson);

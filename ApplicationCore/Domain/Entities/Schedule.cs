@@ -12,8 +12,7 @@ namespace ApplicationCore.Domain.Entities
         public Class Class { get; set; }
         public int SubjectId { get; set; }
         public Subject Subject { get; set; }
-        public int LessonTypeId { get; set; }
-        public LessonType LessonType { get; set; }
+        public string LessonName { get; set; }
         public int TeacherId { get; set; }
         public Teacher Teacher { get; set; }
         public DateTimeOffset DateAndTime { get; set; }
