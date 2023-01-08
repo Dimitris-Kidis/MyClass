@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MyClass.Controllers.Teachers.ViewModels;
+using Query.Classes.GetAllClassesForTeacher;
 using Query.Teachers.GetAboutInfo;
 using Query.Teachers.GetAllStudentTeachersByStudentId;
 using Query.Teachers.GetAllTeachersWithIds;
@@ -21,6 +22,9 @@ namespace MyClass.Controllers.Teachers
 
             CreateMap<ClassesWithStudentsNumberDto, ClassesWithStudentsNumberViewModel>();
             CreateMap<IEnumerable<ClassesWithStudentsNumberDto>, IEnumerable<ClassesWithStudentsNumberViewModel>>();
+
+            CreateMap<ClassForTeacherDto, ClassForTeacherViewModel>();
+            CreateMap<IEnumerable<ClassForTeacherDto>, IEnumerable<ClassForTeacherViewModel>>();
         }
 
     }

@@ -47,22 +47,30 @@ namespace Query.Teachers.GetAllStudentTeachersByStudentId
             var subjects = _subjectRepository.GetAll();
             var images = _imageRepository.GetAll();
 
-            var teachersInfoByStidentId = 
+            var teachersInfoByStidentId =
                 (from teacher in teachers
-                join classTeacher in classesAndTeachers on teacher.Id equals classTeacher.TeacherId
-                join user in users on teacher.Id equals user.TeacherId
-                join subject in subjects on classTeacher.SubjectId equals subject.Id
-                join image in images on user.Id equals image.UserId
+                 join classTeacher in classesAndTeachers on teacher.Id equals classTeacher.TeacherId
+                 join user in users on teacher.Id equals user.TeacherId
+                 join subject in subjects on classTeacher.SubjectId equals subject.Id
+                 join image in images on user.Id equals image.UserId
+                 where classTeacher.ClassId == students
 
-                select new TeacherListDto
-                {
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Position = teacher.Position,
-                    Description = teacher.Description,
-                    Subject = subject.Name,
-                    Avatar = image.ImageTitle
-                }).ToList();
+                 select new TeacherListDto
+                 {
+                     UserId = user.Id,
+                     TeacherId = classTeacher.TeacherId,
+                     FirstName = user.FirstName,
+                     LastName = user.LastName,
+                     Position = teacher.Position,
+                     Description = teacher.Description,
+                     Subject = subject.Name,
+                     Avatar = ""
+                 }).ToList().DistinctBy(teacher => teacher.TeacherId).ToList();
+
+            for (int i = 0; i < teachersInfoByStidentId.Count(); i++)
+            {
+                teachersInfoByStidentId[i].Avatar = images.Where(y => y.UserId == teachersInfoByStidentId[i].UserId).OrderBy(x => x.Id).Select(x => x.ImageTitle).LastOrDefault();
+            }
 
             return teachersInfoByStidentId.Select(_mapper.Map<TeacherListDto>);
         }

@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyClass.Controllers.Teachers.ViewModels;
+using Query.Classes.GetAllClassesForTeacher;
 using Query.Teachers.GetAboutInfo;
 using Query.Teachers.GetAllStudentTeachersByStudentId;
 using Query.Teachers.GetAllTeachersWithIds;
@@ -64,6 +65,18 @@ namespace MyClass.Controllers.Teachers
                 return BadRequest("Entity is not found");
             }
             return Ok(result.Select(_mapper.Map<ClassesWithStudentsNumberViewModel>));
+        }
+
+        [HttpGet("teacher-classes-{userId}")]
+        public async Task<IActionResult> GetAllClassesForTeacher(int userId)
+        {
+            var result = await _mediator.Send(new GetAllClassesForTeacherQuery { UserId = userId });
+            if (result == null)
+            {
+                return BadRequest("Entity is not found");
+            }
+            //return Ok(result.Select()_mapper.Map<ClassViewModel>(result));
+            return Ok(result.Select(_mapper.Map<ClassForTeacherViewModel>));
         }
     }
 }

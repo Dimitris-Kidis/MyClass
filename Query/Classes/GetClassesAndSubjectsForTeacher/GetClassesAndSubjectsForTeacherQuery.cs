@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Query.Prints.DownloadPersonalInfo
+namespace Query.Classes.GetClassesAndSubjectsForTeacher
 {
-    public class DownloadPersonalInfoQuery : IRequest<Stream>
+    public class GetClassesAndSubjectsForTeacherQuery : IRequest<IEnumerable<ClassAndSubjectDto>>
     {
         public int UserId { get; set; }
     }

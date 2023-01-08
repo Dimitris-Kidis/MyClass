@@ -13,13 +13,13 @@ namespace Command.Auth.Registration
     public class RegistrationCommandHandler : IRequestHandler<RegistrationCommand, int>
     {
         private readonly UserManager<User> _userManager;
-        private readonly IClassRepository<Student> _studentsManager;
+        private readonly IClassRepository<ApplicationCore.Domain.Entities.Student> _studentsManager;
         private readonly IClassRepository<Teacher> _teachersManager;
         private readonly IClassRepository<Grade> _gradesManager;
         private readonly IClassRepository<ClassTeacher> _classesAndTeachersManager;
         public RegistrationCommandHandler(
             UserManager<User> userManager,
-            IClassRepository<Student> studentsManager,
+            IClassRepository<ApplicationCore.Domain.Entities.Student> studentsManager,
             IClassRepository<Teacher> teachersManager,
             IClassRepository<ClassTeacher> classesAndTeachersManager,
             IClassRepository<Grade> gradesManager)
@@ -38,7 +38,7 @@ namespace Command.Auth.Registration
 
             if (command.Type == 0)
             {
-                Student student = new Student
+                var student = new ApplicationCore.Domain.Entities.Student
                 {
                     ClassId = (int)command.ClassId
                 };

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MyClass.Controllers.Classes.ViewModels;
 using Query.Classes.GetAllClassesWithIds;
+using Query.Classes.GetClassesAndSubjectsForTeacher;
 
 namespace MyClass.Controllers.Classes
 {
@@ -10,6 +11,9 @@ namespace MyClass.Controllers.Classes
         {
             CreateMap<ClassDto, ClassViewModel>();
             CreateMap<IEnumerable<ClassDto>, IEnumerable<ClassViewModel>>();
+
+            CreateMap<ClassAndSubjectDto, ClassAndSubjectViewModel>();
+            CreateMap<IEnumerable<ClassAndSubjectDto>, IEnumerable<ClassAndSubjectViewModel>>();
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Command.Subjects.CreateSubject;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyClass.Controllers.Subjects.ViewModels;
@@ -27,6 +28,13 @@ namespace MyClass.Controllers.Subjects
                 return BadRequest("Entity is not found");
             }
             return Ok(result.Select(_mapper.Map<SubjectViewModel>));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateNewSubject([FromBody] CreateSubjectCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
         }
     }
 }

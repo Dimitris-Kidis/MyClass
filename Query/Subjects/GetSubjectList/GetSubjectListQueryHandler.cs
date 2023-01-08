@@ -49,7 +49,7 @@ namespace Query.Subjects.GetSubjectList
                  join subject in subjects on pair.SubjectId equals subject.Id
                  select new SubjectDto
                  {
-                     TeacherName = user.FirstName + user.LastName,
+                     TeacherName = user.FirstName + " " + user.LastName,
                      SubjectName = subject.Name
                  }).ToList();
 

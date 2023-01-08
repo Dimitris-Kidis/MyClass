@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Query.Teachers.GetClassesWithStudentsNumber
+namespace Query.Classes.GetClassesAndSubjectsForTeacher
 {
-    public class ClassesWithStudentsNumberDto
+    public class ClassAndSubjectDto
     {
+        public int ClassId { get; set; }
         public string ClassName { get; set; }
+        public int SubjectId { get; set; }
         public string SubjectName { get; set; }
-        public int NumberOfStudents { get; set; }
     }
 }

@@ -2,6 +2,8 @@
 {
     public class TeacherListDto
     {
+        public int UserId { get; set; }
+        public int TeacherId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Position { get; set; }

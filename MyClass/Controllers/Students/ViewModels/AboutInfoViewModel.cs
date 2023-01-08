@@ -6,7 +6,7 @@
         public string DateOfBirth { get; set; }
         public string ClassName { get; set; }
         public int NumberOfSubjects { get; set; }
-        public int NumberOfClassMates { get; set; }
+        public int NumberOfClassmates { get; set; }
         public int NumberOfTeachers { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using AutoMapper;
 using HandlebarsDotNet;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Query.Prints.DownloadStudentInfo;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -13,9 +14,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Wkhtmltopdf.NetCore;
 
-namespace Query.Prints.DownloadPersonalInfo
+namespace Query.Prints.DownloadStudentInfo
 {
-    public class DownloadPersonalInfoQueryHandler : IRequestHandler<DownloadPersonalInfoQuery, Stream>
+    public class DownloadStudentInfoQueryHandler : IRequestHandler<DownloadStudentInfoQuery, Stream>
     {
         private readonly IClassRepository<Student> _studRepository;
         private readonly IClassRepository<Class> _classRepository;
@@ -87,7 +88,7 @@ namespace Query.Prints.DownloadPersonalInfo
             </body>
         </html>";
 
-        public DownloadPersonalInfoQueryHandler(
+        public DownloadStudentInfoQueryHandler(
             IClassRepository<Student> studRepository,
             IClassRepository<Class> classRepository,
             IClassRepository<ClassTeacher> classTeacherRepository,
@@ -109,7 +110,7 @@ namespace Query.Prints.DownloadPersonalInfo
             _mapper = mapper;
         }
 
-        public async Task<Stream> Handle(DownloadPersonalInfoQuery request, CancellationToken cancellationToken)
+        public async Task<Stream> Handle(DownloadStudentInfoQuery request, CancellationToken cancellationToken)
         {
             var user = _userTeacherRepository.FindBy(user => user.Id == request.UserId).FirstOrDefault();
             var images = await _imageRepository.GetAll().ToListAsync(cancellationToken);
@@ -139,16 +140,16 @@ namespace Query.Prints.DownloadPersonalInfo
                  select new
                  {
                      Subject = subject.Name,
-                     GradeOne = grade.GradeOne,
-                     GradeTwo = grade.GradeTwo,
-                     GradeThree = grade.GradeThree,
-                     GradeFour = grade.GradeFour,
-                     Courses = grade.Courses,
-                     Labs = grade.Labs,
-                     Seminars = grade.Seminars,
+                     grade.GradeOne,
+                     grade.GradeTwo,
+                     grade.GradeThree,
+                     grade.GradeFour,
+                     grade.Courses,
+                     grade.Labs,
+                     grade.Seminars,
                  }).ToList();
 
-            var newPerson = new InfoData
+            var newPerson = new StudentInfoData
             {
                 FullName = fullName,
                 DateOfBirth = dateOfBirth,
@@ -177,7 +178,7 @@ namespace Query.Prints.DownloadPersonalInfo
             var tables = "";
             for (int i = 0; i < gradesStud.Count(); i++)
             {
-                tables += 
+                tables +=
                     @$"
                     <tr>    
                         <td style='text-align: center;'>{gradesStud[i].Subject}</td>
