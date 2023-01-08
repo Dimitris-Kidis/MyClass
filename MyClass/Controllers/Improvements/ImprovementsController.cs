@@ -2,6 +2,8 @@
 using Command.Improvements.CreateNewImprovement;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MyClass.Controllers.Improvements.ViewModels;
+using Query.Improvements.GetAllImprovements;
 
 namespace MyClass.Controllers.Improvements
 {
@@ -23,6 +25,18 @@ namespace MyClass.Controllers.Improvements
             var result = await _mediator.Send(command);
             if (result == -1) return BadRequest("There's no user with such id");
             return Ok(result);
+        }
+
+        [HttpGet()]
+        public async Task<IActionResult> GetAllImprovements()
+        {
+            var result = await _mediator.Send(new GetAllImprovementsQuery());
+            if (result == null)
+            {
+                return BadRequest("Entity is not found");
+            }
+            //return Ok(result.Select()_mapper.Map<ClassViewModel>(result));
+            return Ok(result.Select(_mapper.Map<ImprovementViewModel>));
         }
     }
 }

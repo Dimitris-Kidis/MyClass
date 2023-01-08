@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Command.Students.DeleteStudent;
+using Command.Students.UpdateStudent;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyClass.Controllers.Students.ViewModels;
@@ -72,6 +73,14 @@ namespace MyClass.Controllers.Students
             var result = await _mediator.Send(new DeleteStudentCommand { UserId = userId });
             if (result == -1) return NotFound("There's no student with such id");
             return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateTeacher([FromBody] UpdateStudentCommand command)
+        {
+            var result = await _mediator.Send(command);
+            if (result == -1) return NotFound("There's no student with such id");
+            return NoContent();
         }
     }
 }

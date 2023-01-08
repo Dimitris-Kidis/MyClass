@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Command.Teachers.DeleteTeacher;
+using Command.Teachers.UpdateTeacher;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyClass.Controllers.Teachers.ViewModels;
@@ -77,6 +79,22 @@ namespace MyClass.Controllers.Teachers
             }
             //return Ok(result.Select()_mapper.Map<ClassViewModel>(result));
             return Ok(result.Select(_mapper.Map<ClassForTeacherViewModel>));
+        }
+
+        [HttpDelete("{userId}")]
+        public async Task<IActionResult> DeleteTeacherByUserId(int userId)
+        {
+            var result = await _mediator.Send(new DeleteTeacherCommand { UserId = userId });
+            if (result == -1) return NotFound("There's no teacher with such id");
+            return Ok(result);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateTeacher([FromBody] UpdateTeacherCommand command)
+        {
+            var result = await _mediator.Send(command);
+            if (result == -1) return NotFound("There's no teacher with such id");
+            return NoContent();
         }
     }
 }
