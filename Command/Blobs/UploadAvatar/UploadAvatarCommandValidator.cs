@@ -11,7 +11,8 @@ namespace Command.Blobs.UploadAvatar
 
             RuleFor(avatar => avatar.Files)
                 .NotEmpty()
-                .Must(a => a.ContentType == "image/png" || a.ContentType == "image/jpeg").WithMessage($"Avatar format should be either .png or .jpeg.");
+                .Must(a => a.ContentType == "image/png" || a.ContentType == "image/jpeg")
+                .WithMessage($"Avatar format should be either .png or .jpeg.");
         }
     }
 }

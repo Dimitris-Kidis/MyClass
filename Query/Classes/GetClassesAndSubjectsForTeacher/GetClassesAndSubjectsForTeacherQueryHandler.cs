@@ -3,6 +3,7 @@ using ApplicationCore.Services.Repository.ClassRepository;
 using ApplicationCore.Services.Repository.UserRepository;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,10 @@ namespace Query.Classes.GetClassesAndSubjectsForTeacher
 
         public async Task<IEnumerable<ClassAndSubjectDto>> Handle(GetClassesAndSubjectsForTeacherQuery request, CancellationToken cancellationToken)
         {
-            var teacherId = _userTeacherRepository.FindBy(user => user.Id == request.UserId).FirstOrDefault().TeacherId;
+            var teacherId = _userTeacherRepository
+                .FindBy(user => user.Id == request.UserId)
+                .FirstOrDefault()
+                .TeacherId;
 
             var allClassesWithTeachers = _classesAndTeachersRepository.GetAll();
             var allClasses = _classesRepository.GetAll();
@@ -52,9 +56,9 @@ namespace Query.Classes.GetClassesAndSubjectsForTeacher
                                   SubjectId = s.Id,
                                   SubjectName = s.Name
                               }
-                              ).ToList();
+                              ).ToListAsync(cancellationToken);
 
-            return classesWithSubjectForTeacher.Select(_mapper.Map<ClassAndSubjectDto>);
+            return classesWithSubjectForTeacher.Result.Select(_mapper.Map<ClassAndSubjectDto>);
         }
     }
 }

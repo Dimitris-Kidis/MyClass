@@ -3,6 +3,7 @@ using ApplicationCore.Services.Repository.ClassRepository;
 using ApplicationCore.Services.Repository.UserRepository;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +16,12 @@ namespace Query.Classes.GetAllClassesForTeacher
     {
         private readonly IClassRepository<Class> _classesRepository;
         private readonly IClassRepository<ClassTeacher> _classesAndTeachersRepository;
-        private readonly IUserRepository<User> _userTeacherRepository;
+        private readonly IUserRepository<ApplicationCore.Domain.Entities.User> _userTeacherRepository;
         private readonly IMapper _mapper;
 
         public GetAllClassesForTeacherQueryHandler(
             IClassRepository<Class> classesRepository,
-            IUserRepository<User> userTeacherRepository,
+            IUserRepository<ApplicationCore.Domain.Entities.User> userTeacherRepository,
             IClassRepository<ClassTeacher> classesAndTeachersRepository,
             IMapper mapper)
         {
@@ -40,13 +41,12 @@ namespace Query.Classes.GetAllClassesForTeacher
             var classPairs = (from ac in allClasses
                               join ct in allClassesWithTeachers on ac.Id equals ct.ClassId
                               where ct.TeacherId == teacherId
-                              
                               select new ClassForTeacherDto
-                                  {
-                                      Id = ac.Id,
-                                      ClassName = ac.ClassName
-                                  }
-                              ).ToList().DistinctBy(x => x.Id);
+                                {
+                                    Id = ac.Id,
+                                    ClassName = ac.ClassName
+                                }
+                              ).ToListAsync(cancellationToken).Result.DistinctBy(x => x.Id);
 
             return classPairs.Select(_mapper.Map<ClassForTeacherDto>);
         }

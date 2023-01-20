@@ -18,7 +18,9 @@ namespace Command.Grades.UpdateGradeLine
         }
         public Task<int> Handle(UpdateGradeLineCommand request, CancellationToken cancellationToken)
         {
-            var grade = _gradesRepository.FindBy(x => x.Id == request.Id).FirstOrDefault();
+            var grade = _gradesRepository
+                .FindBy(gradeLine => gradeLine.Id == request.Id)
+                .FirstOrDefault();
             if (grade != null)
             {
                 grade.GradeOne = request.GradeOne;

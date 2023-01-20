@@ -19,7 +19,7 @@ namespace Command.Students.UpdateStudent
         }
         public Task<int> Handle(UpdateStudentCommand request, CancellationToken cancellationToken)
         {
-            var user = _usersRepository.FindBy(x => x.Id == request.Id).FirstOrDefault();
+            var user = _usersRepository.FindBy(userUpdated => userUpdated.Id == request.Id).FirstOrDefault();
             if (user != null)
             {
                 user.Email = request.Email;

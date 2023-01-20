@@ -26,8 +26,11 @@ namespace Query.Classes.GetAllClassesWithIds
 
         public async Task<IEnumerable<ClassDto>> Handle(GetAllClassesWithIdsQuery request, CancellationToken cancellationToken)
         {
-            var classes = _classesRepository.GetAll().Select(cl => new ClassDto { Id = cl.Id, ClassName = cl.ClassName }).ToList();
-            return classes.Select(_mapper.Map<ClassDto>);
+            var classes = _classesRepository
+                .GetAll()
+                .Select(clas => new ClassDto { Id = clas.Id, ClassName = clas.ClassName })
+                .ToListAsync(cancellationToken: cancellationToken);
+            return classes.Result.Select(_mapper.Map<ClassDto>);
         }
     }
 }

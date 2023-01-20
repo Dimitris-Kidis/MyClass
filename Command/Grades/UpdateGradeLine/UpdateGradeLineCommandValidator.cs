@@ -15,31 +15,24 @@ namespace Command.Grades.UpdateGradeLine
                 .NotEmpty();
 
             RuleFor(line => line.GradeOne)
-                .NotEmpty()
-                .InclusiveBetween(1, 10);
+                .InclusiveBetween(0, 10);
 
             RuleFor(line => line.GradeTwo)
-                .NotEmpty()
-                .InclusiveBetween(1, 10);
+                .InclusiveBetween(0, 10);
 
             RuleFor(line => line.GradeThree)
-                .NotEmpty()
-                .InclusiveBetween(1, 10);
+                .InclusiveBetween(0, 10);
 
             RuleFor(line => line.GradeFour)
-                .NotEmpty()
-                .InclusiveBetween(1, 10);
+                .InclusiveBetween(0, 10);
 
             RuleFor(line => line.Labs)
-                .NotEmpty()
                 .InclusiveBetween(0, 15);
 
             RuleFor(line => line.Seminars)
-                .NotEmpty()
                 .InclusiveBetween(0, 15);
 
             RuleFor(line => line.Courses)
-                .NotEmpty()
                 .InclusiveBetween(0, 15);
         }
     }

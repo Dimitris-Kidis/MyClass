@@ -40,7 +40,10 @@ namespace Command.ClassesAndTeachers.CreateNewClassTeacherRelationship
 
 
 
-            var studsIds = _studsRepository.GetAll().Where(stud => stud.ClassId == request.ClassId).Select(stud => stud.Id);
+            var studsIds = _studsRepository
+                .GetAll()
+                .Where(stud => stud.ClassId == request.ClassId)
+                .Select(stud => stud.Id);
 
             var gradeList = new List<Grade>();
 

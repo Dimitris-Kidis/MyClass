@@ -21,7 +21,9 @@ namespace Command.Improvements.CreateNewImprovement
         }
         public Task<int> Handle(CreateNewImprovementCommand command, CancellationToken cancellationToken)
         {
-            if (_userRepository.GetAll().All(user => user.Id != command.UserId)) return Task.FromResult(-1);
+            if (_userRepository
+                .GetAll()
+                .All(user => user.Id != command.UserId)) return Task.FromResult(-1);
 
             Improvement imp = new Improvement
             {

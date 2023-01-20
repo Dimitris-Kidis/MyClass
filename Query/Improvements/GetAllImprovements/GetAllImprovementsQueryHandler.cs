@@ -3,6 +3,7 @@ using ApplicationCore.Services.Repository.ClassRepository;
 using ApplicationCore.Services.Repository.UserRepository;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,8 +31,10 @@ namespace Query.Improvements.GetAllImprovements
         public async Task<IEnumerable<ImprovementDto>> Handle(GetAllImprovementsQuery request, CancellationToken cancellationToken)
         {
             var allImprovements = _imprRepository.GetAll();
-            var idsOfUsersWithImprovement = allImprovements.Select(x => x.UserId).ToList();
-            var allUsers = _userRepository.FindBy(user => idsOfUsersWithImprovement.Contains(user.Id));
+            var idsOfUsersWithImprovement = allImprovements.Select(x => x.UserId).ToListAsync(cancellationToken).Result;
+            var allUsers = _userRepository
+                .FindBy(user => idsOfUsersWithImprovement
+                .Contains(user.Id));
 
 
             var result = (from al in allImprovements

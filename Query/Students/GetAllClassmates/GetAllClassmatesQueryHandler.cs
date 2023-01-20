@@ -55,7 +55,7 @@ namespace Query.Students.GetAllClassmates
                  join user in users on student.Id equals user.StudentId
                  select new ClassmatesDto
                  {
-                     FullName = user.FirstName + user.LastName,
+                     FullName = user.FirstName + " " + user.LastName,
                      Gender = user.Gender,
                      Email = user.Email,
                      DateOfBirth = user.DateOfBirth.ToString("d", info)

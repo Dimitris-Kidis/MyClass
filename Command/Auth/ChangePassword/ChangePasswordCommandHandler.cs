@@ -28,8 +28,8 @@ namespace Command.Auth.ChangePassword
             _userRepository.Save();
 
 
-            var user = _userManager.FindByIdAsync($"{command.UserId}");
-            await _userManager.ChangePasswordAsync(user.Result, command.OldPassword, command.NewPassword);
+            var user = await _userManager.FindByIdAsync($"{command.UserId}");
+            await _userManager.ChangePasswordAsync(user, command.OldPassword, command.NewPassword);
 
 
             return await Task.FromResult(1);

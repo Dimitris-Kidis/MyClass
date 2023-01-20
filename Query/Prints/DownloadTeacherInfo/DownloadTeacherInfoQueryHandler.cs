@@ -62,7 +62,7 @@ namespace Query.Prints.DownloadTeacherInfo
                             <th style='padding: 4px;'>Att. I</th>
                             <th style='padding: 4px;'>Att. II</th>
                             <th style='padding: 4px;'>Ind. Work</th>
-                            <th style='padding: 4px;'>Exam</th>
+                            <th style='padding: 4px;'>Current</th>
                             <th style='padding: 4px;'>Course Abs.</th>
                             <th style='padding: 4px;'>Lab Abs.</th>
                             <th style='padding: 4px;'>Seminar Abs.</th>
@@ -120,9 +120,13 @@ namespace Query.Prints.DownloadTeacherInfo
             var classesAndTeachers = _classTeacherRepository.GetAll();
 
 
-            var user = _userTeacherRepository.FindBy(user => user.Id == request.UserId).FirstOrDefault();
+            var user = _userTeacherRepository
+                .FindBy(user => user.Id == request.UserId)
+                .FirstOrDefault();
             var teacherId = user.TeacherId;
-            var images = await _imageRepository.GetAll().ToListAsync(cancellationToken);
+            var images = await _imageRepository
+                .GetAll()
+                .ToListAsync(cancellationToken);
 
             var fullName = user.FirstName + " " + user.LastName;
             var dateOfBirth = user.DateOfBirth.ToString("d", new CultureInfo("es-ES"));
@@ -211,89 +215,6 @@ namespace Query.Prints.DownloadTeacherInfo
                     ";
                 }
             }
-
-
-
-
-
-
-
-            //var bigJoin =
-            //    (from classAndTeacher in classesAndTeachers
-            //     join subject in subjects on classAndTeacher.SubjectId equals subject.Id
-            //     join teacher in teachers on classAndTeacher.TeacherId equals teacher.Id
-            //     join clas in classes on classAndTeacher.ClassId equals clas.Id
-            //     join student in students on clas.Id equals student.ClassId
-            //     join oneUser in users on student.Id equals oneUser.StudentId
-            //     join grade in grades on student.Id equals grade.StudentId
-            //     where classAndTeacher.TeacherId == user.TeacherId
-            //     select new
-            //     {
-            //         ClassName = clas.ClassName,
-            //         SubjectName = subject.Name,
-            //         StudentName = user.FirstName + " " + user.LastName,
-            //         GradeOne =  grade.GradeOne,
-            //         GradeTwo = grade.GradeTwo,
-            //         GradeThree = grade.GradeThree,
-            //         GradeFour = grade.GradeFour,
-            //         Courses = grade.Courses,
-            //         Labs = grade.Labs,
-            //         Seminars = grade.Seminars,
-            //     }).ToList();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //var classesIds = _classTeacherRepository.FindBy(classes => classes.TeacherId == user.TeacherId).Select(p => new { ClassId = p.ClassId, SubjectId = p.SubjectId }).ToList();
-            //var subjectsIds = _classTeacherRepository.FindBy(classes => classes.TeacherId == user.TeacherId).DistinctBy(dis => dis.SubjectId).Select(p => p.SubjectId).ToList();
-
-           
-
-            //tables +=
-            //        @$"
-            //        <tr> ";
-
-            //for (int i = 0; i < classesIds.Count(); i++)
-            //{
-            //    tables += @$"   <td style='text-align: center;'>{bigJoin[i].ClassName}</td>";
-            //    for (int j = 0; j < subjectsIds.Count(); j++)
-            //    {
-            //        tables += @$"   <td style='text-align: center;'>{bigJoin[j].SubjectName}</td>";
-
-
-            //    }
-            //}
-            //tables +=
-            //        @$"
-            //        <tr> ";
-
-            //for (int i = 0; i < bigJoin.Count(); i++)
-            //{
-            //    tables +=
-            //        @$"   
-            //            <td style='text-align: center;'>{bigJoin[i].SubjectName}</td>
-            //            <td style='text-align: center;'>{bigJoin[i].StudentName}</td>
-            //            <td style='text-align: center;'>{bigJoin[i].GradeOne}</td>
-            //            <td style='text-align: center;'>{bigJoin[i].GradeTwo}</td>
-            //            <td style='text-align: center;'>{bigJoin[i].GradeThree}</td>
-            //            <td style='text-align: center;'>{bigJoin[i].GradeFour}</td>
-            //            <td style='text-align: center;'>{bigJoin[i].Courses}</td>
-            //            <td style='text-align: center;'>{bigJoin[i].Labs}</td>
-            //            <td style='text-align: center;'>{bigJoin[i].Seminars}</td>
-            //        ";
-            //}
-
             
             _htmlTemplate += tables;
             _htmlTemplate += _tail;

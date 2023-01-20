@@ -3,6 +3,7 @@ using ApplicationCore.Services.Repository.ClassRepository;
 using ApplicationCore.Services.Repository.UserRepository;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,7 +52,7 @@ namespace Query.Subjects.GetSubjectList
                  {
                      TeacherName = user.FirstName + " " + user.LastName,
                      SubjectName = subject.Name
-                 }).ToList();
+                 }).ToListAsync(cancellationToken).Result;
 
             return subjectsWithTeachers.Select(_mapper.Map<SubjectDto>);
         }

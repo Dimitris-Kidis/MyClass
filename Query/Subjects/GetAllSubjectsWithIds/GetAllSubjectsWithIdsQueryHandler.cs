@@ -2,6 +2,7 @@
 using ApplicationCore.Services.Repository.ClassRepository;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,11 @@ namespace Query.Subjects.GetAllSubjectsWithIds
 
         public async Task<IEnumerable<SubjectDto>> Handle(GetAllSubjectsWithIdsQuery request, CancellationToken cancellationToken)
         {
-            var classes = _subjectsRepository.GetAll().Select(cl => new SubjectDto { Id = cl.Id, SubjectName = cl.Name }).ToList();
+            var classes = _subjectsRepository
+                .GetAll()
+                .Select(cl => new SubjectDto { Id = cl.Id, SubjectName = cl.Name })
+                .ToListAsync(cancellationToken)
+                .Result;
             return classes.Select(_mapper.Map<SubjectDto>);
         }
     }

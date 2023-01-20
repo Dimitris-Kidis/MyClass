@@ -21,7 +21,7 @@ namespace Command.Blobs.UploadAvatar
         public async Task<string> Handle(UploadAvatarCommand command, CancellationToken cancellationToken)
         {
             IConfiguration config;
-            var user = _userRepository.GetWithInclude(x => x.Id == command.UserId);
+            var user = _userRepository.GetWithInclude(user => user.Id == command.UserId);
             string finalUrl = "";
             string systemFileName = $"{user.Id}_{user.FirstName}+{user.LastName}" + DateTime.Now.ToUniversalTime().ToString("yyyy-MM-dd") + DateTime.Now.ToUniversalTime().ToString("THHmmssfff") + "." + command.Files.FileName;
             string blobstorageconnection = "DefaultEndpointsProtocol=https;AccountName=typostorage;AccountKey=adQVgN/sv82jwKngtWcnGsLINxTJ7zt+g2ATE1HCDAMFwb60ektID3A9q14XwobNPc18NbilZZ8i+AStQ5fO+A==;EndpointSuffix=core.windows.net";

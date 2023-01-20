@@ -22,7 +22,7 @@ namespace Command.Blobs.DeleteAvatar
                 UserId = command.UserId,
                 ImageTitle = "https://thumbs.dreamstime.com/b/default-avatar-profile-trendy-style-social-media-user-icon-187599373.jpg",
                 CreatedAt = DateTimeOffset.Now,
-                CreatedBy = "User"
+                CreatedBy = $"UserId/{command.UserId}"
             };
             _imageRepository.Add(image);
             _imageRepository.Save();

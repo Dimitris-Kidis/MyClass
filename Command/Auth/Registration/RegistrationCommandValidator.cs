@@ -37,10 +37,6 @@ namespace Command.Auth.Registration
                 .Matches(@"\d").WithMessage("'Password' must contain one or more digits.")
                 .Matches(@"[][""!@$%^&*(){}:;<>,.?/+_=|'~\\-]").WithMessage("'Password' must contain one or more special characters.");
 
-            //RuleFor(user => user.Age)
-            //    .NotEmpty()
-            //    .InclusiveBetween(4, 101);
-
             RuleFor(user => user.Gender)
                 .NotEmpty()
                 .Must(conditions =>

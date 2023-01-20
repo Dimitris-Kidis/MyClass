@@ -23,7 +23,7 @@ namespace Command.Teachers.UpdateTeacher
         }
         public Task<int> Handle(UpdateTeacherCommand request, CancellationToken cancellationToken)
         {
-            var user = _usersRepository.FindBy(x => x.Id == request.Id).FirstOrDefault();
+            var user = _usersRepository.FindBy(teacherUpdated => teacherUpdated.Id == request.Id).FirstOrDefault();
 
             var teacherPart = _teachersRepository.FindBy(teacher => teacher.Id == user.TeacherId).FirstOrDefault();
             if (user != null)

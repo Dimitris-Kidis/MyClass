@@ -20,7 +20,7 @@ namespace Query.Students.GetAboutInfo
         private readonly IClassRepository<Teacher> _teacherRepository;
         private readonly IClassRepository<Subject> _subjectRepository;
         private readonly IClassRepository<Image> _imageRepository;
-        private readonly IUserRepository<User> _userTeacherRepository;
+        private readonly IUserRepository<ApplicationCore.Domain.Entities.User> _userTeacherRepository;
         private readonly IMapper _mapper;
 
         public GetAboutInfoByIdQueryHandler(
@@ -29,7 +29,7 @@ namespace Query.Students.GetAboutInfo
             IClassRepository<ClassTeacher> classTeacherRepository,
             IClassRepository<Teacher> teacherRepository,
             IClassRepository<Subject> subjectRepository,
-            IUserRepository<User> userTeacherRepository,
+            IUserRepository<ApplicationCore.Domain.Entities.User> userTeacherRepository,
             IMapper mapper)
         {
             _studRepository = studRepository;

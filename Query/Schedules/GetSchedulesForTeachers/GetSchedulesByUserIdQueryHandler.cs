@@ -3,6 +3,7 @@ using ApplicationCore.Services.Repository.ClassRepository;
 using ApplicationCore.Services.Repository.UserRepository;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +61,7 @@ namespace Query.Schedules.GetSchedulesForTeachers
                      LessonName = schedule.LessonName,
                      DateAndTime = schedule.DateAndTime,
                      Cabinet = schedule.Cabinet
-                 }).ToList();
+                 }).ToListAsync(cancellationToken).Result;
 
             return schedulesDtos.Select(_mapper.Map<ScheduleForTeachersDto>);
         }

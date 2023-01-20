@@ -23,23 +23,28 @@ namespace Command.Teachers.UpdateTeacher
                 .MaximumLength(30);
 
             RuleFor(user => user.FirstName)
-                .NotEmpty().MinimumLength(2)
+                .NotEmpty()
+                .MinimumLength(2)
                 .MaximumLength(30);
 
             RuleFor(user => user.LastName)
-                .NotEmpty().MinimumLength(2)
+                .NotEmpty()
+                .MinimumLength(2)
                 .MaximumLength(30);
 
             RuleFor(user => user.Position)
-                .NotEmpty().MinimumLength(2)
+                .NotEmpty()
+                .MinimumLength(2)
                 .MaximumLength(30);
 
             RuleFor(user => user.Experience)
-                .NotEmpty().MinimumLength(2)
+                .NotEmpty()
+                .MinimumLength(2)
                 .MaximumLength(30);
 
             RuleFor(user => user.Description)
-                .NotEmpty().MinimumLength(50)
+                .NotEmpty()
+                .MinimumLength(50)
                 .MaximumLength(400);
 
             RuleFor(user => user.Gender)

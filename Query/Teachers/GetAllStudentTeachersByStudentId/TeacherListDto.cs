@@ -10,6 +10,8 @@
         public string Description { get; set; }
         public string Subject { get; set; }
         public string Avatar { get; set; }
+        public string Experience { get; set; }
+
 
 
     }

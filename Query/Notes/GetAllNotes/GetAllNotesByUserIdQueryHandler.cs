@@ -14,12 +14,12 @@ namespace Query.Notes.GetAllNotes
     public class GetAllNotesByUserIdQueryHandler : IRequestHandler<GetAllNotesByUserIdQuery, IEnumerable<NotesDto>>
     {
         private readonly IClassRepository<Note> _notesRepository;
-        private readonly IUserRepository<User> _userRepository;
+        private readonly IUserRepository<ApplicationCore.Domain.Entities.User> _userRepository;
         private readonly IMapper _mapper;
 
         public GetAllNotesByUserIdQueryHandler(
             IClassRepository<Note> notesRepository,
-            IUserRepository<User> userRepository,
+            IUserRepository<ApplicationCore.Domain.Entities.User> userRepository,
             IMapper mapper)
         {
             _userRepository = userRepository;
@@ -29,7 +29,10 @@ namespace Query.Notes.GetAllNotes
 
         public async Task<IEnumerable<NotesDto>> Handle(GetAllNotesByUserIdQuery request, CancellationToken cancellationToken)
         {
-            var notes = _notesRepository.GetAll().Where(note => note.UserId == request.Id).OrderByDescending(note => note.CreatedAt);
+            var notes = _notesRepository
+                .GetAll()
+                .Where(note => note.UserId == request.Id)
+                .OrderByDescending(note => note.CreatedAt);
 
             return notes.Select(_mapper.Map<NotesDto>);
         }

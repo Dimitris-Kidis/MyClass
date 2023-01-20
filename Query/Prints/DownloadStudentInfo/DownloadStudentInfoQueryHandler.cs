@@ -63,7 +63,7 @@ namespace Query.Prints.DownloadStudentInfo
                             <th style='padding: 4px;'>Att. I</th>
                             <th style='padding: 4px;'>Att. II</th>
                             <th style='padding: 4px;'>Ind. Work</th>
-                            <th style='padding: 4px;'>Exam</th>
+                            <th style='padding: 4px;'>Current</th>
                             <th style='padding: 4px;'>Course Abs.</th>
                             <th style='padding: 4px;'>Lab Abs.</th>
                             <th style='padding: 4px;'>Seminar Abs.</th>
@@ -96,7 +96,7 @@ namespace Query.Prints.DownloadStudentInfo
             IClassRepository<Subject> subjectsRepository,
             IClassRepository<Grade> gradesRepository,
             IClassRepository<Image> imageRepository,
-            IUserRepository<User> userTeacherRepository,
+            IUserRepository<ApplicationCore.Domain.Entities.User> userTeacherRepository,
             IMapper mapper)
         {
             _studRepository = studRepository;
@@ -112,10 +112,17 @@ namespace Query.Prints.DownloadStudentInfo
 
         public async Task<Stream> Handle(DownloadStudentInfoQuery request, CancellationToken cancellationToken)
         {
-            var user = _userTeacherRepository.FindBy(user => user.Id == request.UserId).FirstOrDefault();
-            var images = await _imageRepository.GetAll().ToListAsync(cancellationToken);
+            var user = _userTeacherRepository
+                .FindBy(user => user.Id == request.UserId)
+                .FirstOrDefault();
+            var images = await _imageRepository
+                .GetAll()
+                .ToListAsync(cancellationToken);
 
-            var classId = _studRepository.FindBy(stud => stud.Id == user.StudentId).FirstOrDefault().ClassId;
+            var classId = _studRepository
+                .FindBy(stud => stud.Id == user.StudentId)
+                .FirstOrDefault()
+                .ClassId;
 
             var fullName = user.FirstName + " " + user.LastName;
             var dateOfBirth = user.DateOfBirth.ToString("d", new CultureInfo("es-ES"));
@@ -147,7 +154,7 @@ namespace Query.Prints.DownloadStudentInfo
                      grade.Courses,
                      grade.Labs,
                      grade.Seminars,
-                 }).ToList();
+                 }).ToListAsync(cancellationToken).Result;
 
             var newPerson = new StudentInfoData
             {
@@ -172,7 +179,7 @@ namespace Query.Prints.DownloadStudentInfo
                  {
                      Subject = subject.Name,
                      Teacher = userr.FirstName + " " + userr.LastName,
-                 }).ToList();
+                 }).ToListAsync(cancellationToken).Result;
 
 
             var tables = "";

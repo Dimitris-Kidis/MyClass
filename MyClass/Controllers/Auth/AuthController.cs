@@ -8,7 +8,9 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using MyClass.Controllers.Common.ViewModels;
 using MyClass.Identity;
+using Query.Users.GetUser;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -22,13 +24,13 @@ namespace MyClass.Controllers.Auth
         private readonly IMediator _mediator;
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        private readonly IClassRepository<Student> _studRepository;
+        private readonly IClassRepository<ApplicationCore.Domain.Entities.Student> _studRepository;
         public AuthController(
             IMapper mapper,
             IMediator mediator,
             UserManager<User> userManager,
             SignInManager<User> signInManager,
-            IClassRepository<Student> studRepository)
+            IClassRepository<ApplicationCore.Domain.Entities.Student> studRepository)
         {
             _mapper = mapper;
             _mediator = mediator;
@@ -140,6 +142,17 @@ namespace MyClass.Controllers.Auth
             var result = await _mediator.Send(command);
             if (result == -1) return BadRequest("An error occured...");
             return Ok(result);
+        }
+
+        [HttpGet("user-data/{userId}")]
+        public async Task<IActionResult> GetUserData(int userId)
+        {
+            var result = await _mediator.Send(new GetUserQuery { UserId = userId });
+            if (result == null)
+            {
+                return BadRequest("Entity is not found");
+            }
+            return Ok(_mapper.Map<UserViewModel>(result));
         }
     }
 }

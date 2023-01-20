@@ -103,7 +103,10 @@ namespace Command.Auth.Registration
                 _classesAndTeachersManager.Add(ct);
                 _classesAndTeachersManager.Save();
 
-                var studsIds = _studentsManager.GetAll().Where(stud => stud.ClassId == (int)command.ClassId).Select(stud => stud.Id);
+                var studsIds = _studentsManager
+                    .GetAll()
+                    .Where(stud => stud.ClassId == (int)command.ClassId)
+                    .Select(stud => stud.Id);
 
                 var gradeList = new List<Grade>();
 

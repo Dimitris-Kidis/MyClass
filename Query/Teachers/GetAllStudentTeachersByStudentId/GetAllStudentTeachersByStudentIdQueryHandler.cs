@@ -64,8 +64,9 @@ namespace Query.Teachers.GetAllStudentTeachersByStudentId
                      Position = teacher.Position,
                      Description = teacher.Description,
                      Subject = subject.Name,
+                     Experience = teacher.Experience,
                      Avatar = ""
-                 }).ToList().DistinctBy(teacher => teacher.TeacherId).ToList();
+                 }).ToList().DistinctBy(teacher => teacher.Subject).ToList();
 
             for (int i = 0; i < teachersInfoByStidentId.Count(); i++)
             {

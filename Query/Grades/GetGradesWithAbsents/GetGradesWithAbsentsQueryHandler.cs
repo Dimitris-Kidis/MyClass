@@ -2,6 +2,7 @@
 using ApplicationCore.Services.Repository.ClassRepository;
 using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,9 +49,9 @@ namespace Query.Grades.GetGradesWithAbsents
                      Courses = grade.Courses,
                      Labs = grade.Labs,
                      Seminars = grade.Seminars,
-                 }).ToList();
+                 }).ToListAsync(cancellationToken);
 
-            return gradesStud.Select(_mapper.Map<GradesWithAbsentsDto>);
+            return gradesStud.Result.Select(_mapper.Map<GradesWithAbsentsDto>);
         }
     }
 }

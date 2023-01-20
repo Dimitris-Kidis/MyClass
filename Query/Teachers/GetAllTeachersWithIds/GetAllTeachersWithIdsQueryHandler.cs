@@ -14,12 +14,12 @@ namespace Query.Teachers.GetAllTeachersWithIds
     public class GetAllTeachersWithIdsQueryHandler : IRequestHandler<GetAllTeachersWithIdsQuery, IEnumerable<TeacherDto>>
     {
         private readonly IClassRepository<Teacher> _teachersRepository;
-        private readonly IUserRepository<User> _usersRepository;
+        private readonly IUserRepository<ApplicationCore.Domain.Entities.User> _usersRepository;
         private readonly IMapper _mapper;
 
         public GetAllTeachersWithIdsQueryHandler(
             IClassRepository<Teacher> teachersRepository,
-            IUserRepository<User> usersRepository,
+            IUserRepository<ApplicationCore.Domain.Entities.User> usersRepository,
             IMapper mapper)
         {
             _teachersRepository = teachersRepository;

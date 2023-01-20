@@ -13,8 +13,8 @@ namespace Command.Notes.CreateNewNote
         {
             RuleFor(note => note.NoteText)
                 .NotEmpty()
-                .MinimumLength(5)
-                .MaximumLength(500);
+                .MinimumLength(3)
+                .MaximumLength(600);
         }
     }
 }
