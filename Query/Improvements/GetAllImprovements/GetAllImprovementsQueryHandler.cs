@@ -46,7 +46,7 @@ namespace Query.Improvements.GetAllImprovements
                               Time = al.CreatedAt,
                               Role = au.StudentId != null ? "Student" : (au.TeacherId != null ? "Teacher" : "Admin"),
                               ImprovementText = al.HelpNote
-                          }).ToList();
+                          }).OrderByDescending(improv => improv.Time).ToList();
 
             return result.Select(_mapper.Map<ImprovementDto>);
         }

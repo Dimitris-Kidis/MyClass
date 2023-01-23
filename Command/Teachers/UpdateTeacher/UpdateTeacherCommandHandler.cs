@@ -28,7 +28,11 @@ namespace Command.Teachers.UpdateTeacher
             var teacherPart = _teachersRepository.FindBy(teacher => teacher.Id == user.TeacherId).FirstOrDefault();
             if (user != null)
             {
+                user.NormalizedUserName = request.Email;
+                user.NormalizedEmail = request.Email;
                 user.Email = request.Email;
+                user.UserName = request.Email;
+                user.CreatedBy = request.Email;
                 user.FirstName = request.FirstName;
                 user.LastName = request.LastName;
                 user.Gender = request.Gender;

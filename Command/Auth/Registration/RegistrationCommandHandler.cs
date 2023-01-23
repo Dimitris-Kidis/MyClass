@@ -93,44 +93,44 @@ namespace Command.Auth.Registration
 
                 var teach = teacher.Id;
 
-                ClassTeacher ct = new ClassTeacher
-                {
-                    ClassId = (int)command.ClassId,
-                    SubjectId = (int)command.SubjectId,
-                    TeacherId = teach
-                };
+                //ClassTeacher ct = new ClassTeacher
+                //{
+                //    ClassId = (int)command.ClassId,
+                //    SubjectId = (int)command.SubjectId,
+                //    TeacherId = teach
+                //};
 
-                _classesAndTeachersManager.Add(ct);
-                _classesAndTeachersManager.Save();
+                //_classesAndTeachersManager.Add(ct);
+                //_classesAndTeachersManager.Save();
 
-                var studsIds = _studentsManager
-                    .GetAll()
-                    .Where(stud => stud.ClassId == (int)command.ClassId)
-                    .Select(stud => stud.Id);
+                //var studsIds = _studentsManager
+                //    .GetAll()
+                //    .Where(stud => stud.ClassId == (int)command.ClassId)
+                //    .Select(stud => stud.Id);
 
-                var gradeList = new List<Grade>();
+                //var gradeList = new List<Grade>();
 
-                foreach (var studId in studsIds)
-                {
+                //foreach (var studId in studsIds)
+                //{
 
-                    Grade emptyGrade = new Grade
-                    {
-                        TeacherId = teach,
-                        SubjectId = (int)command.SubjectId,
-                        StudentId = studId,
-                        GradeOne = 0,
-                        GradeTwo = 0,
-                        GradeThree = 0,
-                        GradeFour = 0,
-                        Labs = 0,
-                        Seminars = 0,
-                        Courses = 0
-                    };
-                    gradeList.Add(emptyGrade);
+                //    Grade emptyGrade = new Grade
+                //    {
+                //        TeacherId = teach,
+                //        SubjectId = (int)command.SubjectId,
+                //        StudentId = studId,
+                //        GradeOne = 0,
+                //        GradeTwo = 0,
+                //        GradeThree = 0,
+                //        GradeFour = 0,
+                //        Labs = 0,
+                //        Seminars = 0,
+                //        Courses = 0
+                //    };
+                //    gradeList.Add(emptyGrade);
 
-                }
-                _gradesManager.AddRange(gradeList);
-                _gradesManager.Save();
+                //}
+                //_gradesManager.AddRange(gradeList);
+                //_gradesManager.Save();
 
 
 

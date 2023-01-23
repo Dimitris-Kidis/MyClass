@@ -10,10 +10,6 @@ namespace ApplicationCore.Domain.Entities
 {
     public class User : IdentityUser<int>
     {
-        public string CreatedBy { get; set; }
-        public string? LastModifiedBy { get; set; }
-        public DateTimeOffset CreatedAt { get; set; }
-        public DateTimeOffset? LastModifiedAt { get; set; }
         [Timestamp]
         public byte[] RowVersion { get; set; }
         public bool IsAdmin { get; set; }
@@ -31,6 +27,10 @@ namespace ApplicationCore.Domain.Entities
         public int? StudentId { get; set; }
         public Student Student { get; set; }
         public ICollection<Note> Notes { get; set; }
+        public string CreatedBy { get; set; }
+        public string? LastModifiedBy { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
+        public DateTimeOffset? LastModifiedAt { get; set; }
 
     }
 }

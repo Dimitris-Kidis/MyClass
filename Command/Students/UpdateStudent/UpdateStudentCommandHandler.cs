@@ -23,6 +23,7 @@ namespace Command.Students.UpdateStudent
             if (user != null)
             {
                 user.Email = request.Email;
+                user.UserName = request.Email;
                 user.FirstName = request.FirstName;
                 user.LastName = request.LastName;
                 user.Gender = request.Gender;

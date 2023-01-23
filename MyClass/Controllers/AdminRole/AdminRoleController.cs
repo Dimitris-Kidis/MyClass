@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Command.Classes.CreateClass;
 using Command.ClassesAndTeachers.CreateNewClassTeacherRelationship;
+using Command.Schedules.CreateSchedule;
 using Command.Students.DeleteStudent;
 using Command.Students.UpdateStudent;
 using Command.Subjects.CreateSubject;
@@ -9,13 +10,20 @@ using Command.Teachers.UpdateTeacher;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyClass.Controllers.AdminRole.ViewModels;
+using Query.Admins;
+using Query.Admins.GetAdminAboutInfo;
+using Query.Admins.GetAdminsPaged;
 using Query.Classes.GetAllClassesForTeacher;
 using Query.Classes.GetAllClassesWithIds;
 using Query.Classes.GetClassesAndSubjectsForTeacher;
 using Query.Improvements.GetAllImprovements;
+using Query.Relations.GetAllRelations;
+using Query.Schedules.GetAllSchedules;
+using Query.Students.GetStudent;
 using Query.Students.GetStudentsPaged;
 using Query.Subjects.GetAllSubjectsWithIds;
 using Query.Teachers.GetAllTeachersWithIds;
+using Query.Teachers.GetTeacher;
 using Query.Teachers.GetTeachersPaged;
 
 namespace MyClass.Controllers.AdminRole
@@ -153,6 +161,75 @@ namespace MyClass.Controllers.AdminRole
         {
             var pagedReviewsDto = await _mediator.Send(query);
             return Ok(pagedReviewsDto);
+        }
+
+        [HttpGet("about-info/{userId}")]
+        public async Task<IActionResult> GetAboutInfo(int userId)
+        {
+            var result = await _mediator.Send(new GetAdminAboutInfoQuery { UserId = userId });
+            if (result == null)
+            {
+                return BadRequest("Entity is not found");
+            }
+            return Ok(_mapper.Map<AdminAboutInfoViewModel>(result));
+        }
+
+        [HttpGet("student-or-admin/{userId}")]
+        public async Task<IActionResult> GetStudentOrAdmin(int userId)
+        {
+            var result = await _mediator.Send(new GetStudentOrAdminQuery { UserId = userId });
+            if (result == null)
+            {
+                return BadRequest("Entity is not found");
+            }
+            return Ok(_mapper.Map<StudentOrAdminRowViewModel>(result));
+        }
+
+        [HttpGet("teacher/{userId}")]
+        public async Task<IActionResult> GetTeacher(int userId)
+        {
+            var result = await _mediator.Send(new GetTeacherRowQuery { UserId = userId });
+            if (result == null)
+            {
+                return BadRequest("Entity is not found");
+            }
+            return Ok(_mapper.Map<TeacherRowViewModel>(result));
+        }
+
+        [HttpPost("admins-paged")]
+        public async Task<IActionResult> GetPagedGrades(GetAdminsPagedQuery query)
+        {
+            var pagedGradesDto = await _mediator.Send(query);
+            return Ok(pagedGradesDto);
+        }
+
+        [HttpGet("relations")]
+        public async Task<IActionResult> GetAllRelations ()
+        {
+            var result = await _mediator.Send(new GetAllRelationsQuery());
+            if (result == null)
+            {
+                return BadRequest("Entity is not found");
+            }
+            return Ok(result.Select(_mapper.Map<RelationViewModel>));
+        }
+
+        [HttpGet("all-schedules")]
+        public async Task<IActionResult> GetAllSchedules()
+        {
+            var result = await _mediator.Send(new GetAllSchedulesQuery());
+            if (result == null)
+            {
+                return BadRequest("Entity is not found");
+            }
+            return Ok(result.Select(_mapper.Map<AllSchedulesViewModel>));
+        }
+
+        [HttpPost("schedule")]
+        public async Task<IActionResult> CreateNewSchedule([FromBody] CreateScheduleCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
         }
     }
 }
