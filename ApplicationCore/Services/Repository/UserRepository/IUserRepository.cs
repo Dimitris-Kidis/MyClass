@@ -16,6 +16,7 @@ namespace ApplicationCore.Services.Repository.UserRepository
         TEntity Update(TEntity entity);
         IEnumerable<TEntity> FindBy(Expression<Func<TEntity, bool>> predicate);
         IQueryable<TEntity> GetAll();
+        void DeleteRange(IEnumerable<TEntity> entities);
         TEntity GetWithInclude(Expression<Func<TEntity, bool>>? predicate, params Expression<Func<TEntity, object>>[] paths);
 
     }

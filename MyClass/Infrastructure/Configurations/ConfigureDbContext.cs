@@ -10,6 +10,8 @@ namespace MyClass.Infrastructure.Configurations
             services.AddDbContext<MyClassDbContext>(opt =>
             {
                 opt.UseSqlServer(builder.Configuration.GetConnectionString("connectionString"));
+                
             });
+
     }
 }

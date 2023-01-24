@@ -1,10 +1,14 @@
 ﻿using AutoMapper;
+using Command.Admins.DeleteAdmin;
+using Command.Admins.UpdateAdmin;
 using Command.Classes.CreateClass;
+using Command.Classes.DeleteClass;
 using Command.ClassesAndTeachers.CreateNewClassTeacherRelationship;
 using Command.Schedules.CreateSchedule;
 using Command.Students.DeleteStudent;
 using Command.Students.UpdateStudent;
 using Command.Subjects.CreateSubject;
+using Command.Subjects.DeleteSubject;
 using Command.Teachers.DeleteTeacher;
 using Command.Teachers.UpdateTeacher;
 using MediatR;
@@ -229,6 +233,38 @@ namespace MyClass.Controllers.AdminRole
         public async Task<IActionResult> CreateNewSchedule([FromBody] CreateScheduleCommand command)
         {
             var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpPut("admin")]
+        public async Task<IActionResult> UpdateAdmin([FromBody] UpdateAdminCommand command)
+        {
+            var result = await _mediator.Send(command);
+            if (result == -1) return NotFound("There's no student with such id");
+            return NoContent();
+        }
+
+        [HttpDelete("admin/{userId}")]
+        public async Task<IActionResult> DeleteAdminById(int userId)
+        {
+            var result = await _mediator.Send(new DeleteAdminCommand { UserId = userId });
+            if (result == -1) return NotFound("There's no admin with such id");
+            return Ok(result);
+        }
+
+        [HttpDelete("subject/{subjectId}")]
+        public async Task<IActionResult> DeleteSubjectById(int subjectId)
+        {
+            var result = await _mediator.Send(new DeleteSubjectCommand { SubjectId = subjectId });
+            if (result == -1) return NotFound("There's no subject with such id");
+            return Ok(result);
+        }
+
+        [HttpDelete("class/{classId}")]
+        public async Task<IActionResult> DeleteClassById(int classId)
+        {
+            var result = await _mediator.Send(new DeleteClassCommand { ClassId = classId });
+            if (result == -1) return NotFound("There's no class with such id");
             return Ok(result);
         }
     }

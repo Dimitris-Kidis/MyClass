@@ -70,6 +70,11 @@ namespace ApplicationCore.Services.Repository.UserRepository
             _dbContext.Set<User>().Remove(entity);
         }
 
+        public void DeleteRange(IEnumerable<User> entities)
+        {
+            _dbContext.Set<User>().RemoveRange(entities);
+        }
+
         public async Task<User> GetByIdAsync(int id, CancellationToken cancellationToken = default) =>
             await _dbContext.Set<User>().SingleAsync(x => x.Id == id, cancellationToken);
 

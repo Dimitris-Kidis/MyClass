@@ -1,5 +1,4 @@
 ﻿using ApplicationCore.Domain.Entities;
-using ApplicationCore.Services.Repository.ClassRepository;
 using ApplicationCore.Services.Repository.UserRepository;
 using MediatR;
 using System;
@@ -8,16 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Command.Students.UpdateStudent
+namespace Command.Admins.UpdateAdmin
 {
-    public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommand, int>
+    public class UpdateAdminCommandHandler : IRequestHandler<UpdateAdminCommand, int>
     {
         private readonly IUserRepository<User> _usersRepository;
-        public UpdateStudentCommandHandler(IUserRepository<User> usersRepository)
+        public UpdateAdminCommandHandler(IUserRepository<User> usersRepository)
         {
             _usersRepository = usersRepository;
         }
-        public Task<int> Handle(UpdateStudentCommand request, CancellationToken cancellationToken)
+        public Task<int> Handle(UpdateAdminCommand request, CancellationToken cancellationToken)
         {
             var user = _usersRepository.FindBy(userUpdated => userUpdated.Id == request.Id).FirstOrDefault();
             if (user != null)
@@ -32,7 +31,7 @@ namespace Command.Students.UpdateStudent
                 user.NormalizedUserName = request.Email;
                 user.NormalizedEmail = request.Email;
                 user.CreatedBy = request.Email;
-                
+
 
                 _usersRepository.Update(user);
                 _usersRepository.Save();

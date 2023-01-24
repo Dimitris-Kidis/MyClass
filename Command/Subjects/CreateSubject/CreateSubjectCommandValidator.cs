@@ -11,10 +11,10 @@ namespace Command.Subjects.CreateSubject
     {
         public CreateSubjectCommandValidator()
         {
-            RuleFor(subject => subject.SubjectName)
-                .NotEmpty()
-                .MinimumLength(4)
-                .MaximumLength(30);
+            //RuleFor(subject => subject.SubjectName)
+            //    .NotEmpty()
+            //    .MinimumLength(4)
+            //    .MaximumLength(30);
         }
     }
 }
