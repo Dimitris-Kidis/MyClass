@@ -50,6 +50,7 @@ namespace Query.Relations.GetAllRelations
                   join cl in classes on ct.ClassId equals cl.Id
                   select new RelationDto
                   {
+                      Id = ct.Id,
                       SubjectName = subject.Name,
                       ClassName = cl.ClassName,
                       TeacherName = user.FirstName + " " + user.LastName

@@ -4,7 +4,9 @@ using Command.Admins.UpdateAdmin;
 using Command.Classes.CreateClass;
 using Command.Classes.DeleteClass;
 using Command.ClassesAndTeachers.CreateNewClassTeacherRelationship;
+using Command.ClassesAndTeachers.DeleteClassTeacherRelationship;
 using Command.Schedules.CreateSchedule;
+using Command.Schedules.DeleteSchedule;
 using Command.Students.DeleteStudent;
 using Command.Students.UpdateStudent;
 using Command.Subjects.CreateSubject;
@@ -265,6 +267,22 @@ namespace MyClass.Controllers.AdminRole
         {
             var result = await _mediator.Send(new DeleteClassCommand { ClassId = classId });
             if (result == -1) return NotFound("There's no class with such id");
+            return Ok(result);
+        }
+
+        [HttpDelete("relation/{relationId}")]
+        public async Task<IActionResult> DeleteRelationById(int relationId)
+        {
+            var result = await _mediator.Send(new DeleteClassTeacherRelationshipCommand { ClassTeacherId = relationId });
+            if (result == -1) return NotFound("There's no relation with such id");
+            return Ok(result);
+        }
+
+        [HttpDelete("schedule/{scheduleId}")]
+        public async Task<IActionResult> DeleteScheduleById(int scheduleId)
+        {
+            var result = await _mediator.Send(new DeleteScheduleCommand { ScheduleId = scheduleId });
+            if (result == -1) return NotFound("There's no schedule with such id");
             return Ok(result);
         }
     }
