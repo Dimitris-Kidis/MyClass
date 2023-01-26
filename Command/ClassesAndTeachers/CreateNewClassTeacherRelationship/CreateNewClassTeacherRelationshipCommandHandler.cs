@@ -37,9 +37,6 @@ namespace Command.ClassesAndTeachers.CreateNewClassTeacherRelationship
 
             var resultId = newClassTeacherRelation.Id;
 
-
-
-
             var studsIds = _studsRepository
                 .GetAll()
                 .Where(stud => stud.ClassId == request.ClassId)

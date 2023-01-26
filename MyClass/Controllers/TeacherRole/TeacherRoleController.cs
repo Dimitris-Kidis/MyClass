@@ -27,14 +27,6 @@ namespace MyClass.Controllers.Teacher
             _mediator = mediator;
         }
 
-        [HttpPut("grade-update")]
-        public async Task<IActionResult> UpdateGradeLineByItsId([FromBody] UpdateGradeLineCommand command)
-        {
-            var result = await _mediator.Send(command);
-            if (result == -1) return NotFound("There's no grade line with such id");
-            return NoContent();
-        }
-
         [HttpPost("grades-paged")]
         public async Task<IActionResult> GetPagedGrades(GetPagedGradesForClassIdAndSubjectIdQuery query)
         {
@@ -109,6 +101,14 @@ namespace MyClass.Controllers.Teacher
                 return BadRequest("Entity is not found");
             }
             return Ok(_mapper.Map<GradeLineViewModel>(result));
+        }
+
+        [HttpPut("grade-update")]
+        public async Task<IActionResult> UpdateGradeLineByItsId([FromBody] UpdateGradeLineCommand command)
+        {
+            var result = await _mediator.Send(command);
+            if (result == -1) return NotFound("There's no grade line with such id");
+            return NoContent();
         }
     }
 }

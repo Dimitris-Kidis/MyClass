@@ -47,33 +47,6 @@ namespace MyClass.Controllers.AdminRole
             _mediator = mediator;
         }
 
-        [HttpDelete("student/{userId}")]
-        public async Task<IActionResult> DeleteStudentById(int userId)
-        {
-            var result = await _mediator.Send(new DeleteStudentCommand { UserId = userId });
-            if (result == -1) return NotFound("There's no student with such id");
-            return Ok(result);
-        }
-
-        [HttpPut("student")]
-        public async Task<IActionResult> UpdateStudent([FromBody] UpdateStudentCommand command)
-        {
-            var result = await _mediator.Send(command);
-            if (result == -1) return NotFound("There's no student with such id");
-            return NoContent();
-        }
-
-        [HttpGet("all-classes-with-ids")]
-        public async Task<IActionResult> GetAllClassesWithIds()
-        {
-            var result = await _mediator.Send(new GetAllClassesWithIdsQuery());
-            if (result == null)
-            {
-                return BadRequest("Entity is not found");
-            }
-            return Ok(result.Select(_mapper.Map<ClassViewModel>));
-        }
-
         [HttpPost("class")]
         public async Task<IActionResult> CreateNewClass([FromBody] CreateClassCommand command)
         {
@@ -86,6 +59,63 @@ namespace MyClass.Controllers.AdminRole
         {
             var result = await _mediator.Send(command);
             return Ok(result);
+        }
+
+        [HttpPost("subject")]
+        public async Task<IActionResult> CreateNewSubject([FromBody] CreateSubjectCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpPost("students-paged")]
+        public async Task<IActionResult> GetPagedStudents(GetPagedStudentsQuery query)
+        {
+            var pagedReviewsDto = await _mediator.Send(query);
+            return Ok(pagedReviewsDto);
+        }
+
+        [HttpPost("teachers-paged")]
+        public async Task<IActionResult> GetPagedTeachers(GetPagedTeachersQuery query)
+        {
+            var pagedReviewsDto = await _mediator.Send(query);
+            return Ok(pagedReviewsDto);
+        }
+
+        [HttpPost("admins-paged")]
+        public async Task<IActionResult> GetPagedGrades(GetAdminsPagedQuery query)
+        {
+            var pagedGradesDto = await _mediator.Send(query);
+            return Ok(pagedGradesDto);
+        }
+
+        [HttpPost("schedule")]
+        public async Task<IActionResult> CreateNewSchedule([FromBody] CreateScheduleCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpGet("all-schedules")]
+        public async Task<IActionResult> GetAllSchedules()
+        {
+            var result = await _mediator.Send(new GetAllSchedulesQuery());
+            if (result == null)
+            {
+                return BadRequest("Entity is not found");
+            }
+            return Ok(result.Select(_mapper.Map<AllSchedulesViewModel>));
+        }
+
+        [HttpGet("all-classes-with-ids")]
+        public async Task<IActionResult> GetAllClassesWithIds()
+        {
+            var result = await _mediator.Send(new GetAllClassesWithIdsQuery());
+            if (result == null)
+            {
+                return BadRequest("Entity is not found");
+            }
+            return Ok(result.Select(_mapper.Map<ClassViewModel>));
         }
 
         [HttpGet("all-improvements")]
@@ -110,29 +140,6 @@ namespace MyClass.Controllers.AdminRole
             return Ok(result.Select(_mapper.Map<SubjectViewModel>));
         }
 
-        [HttpPost("subject")]
-        public async Task<IActionResult> CreateNewSubject([FromBody] CreateSubjectCommand command)
-        {
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
-
-        [HttpDelete("teacher/{userId}")]
-        public async Task<IActionResult> DeleteTeacherByUserId(int userId)
-        {
-            var result = await _mediator.Send(new DeleteTeacherCommand { UserId = userId });
-            if (result == -1) return NotFound("There's no teacher with such id");
-            return Ok(result);
-        }
-
-        [HttpPut("teacher")]
-        public async Task<IActionResult> UpdateTeacher([FromBody] UpdateTeacherCommand command)
-        {
-            var result = await _mediator.Send(command);
-            if (result == -1) return NotFound("There's no teacher with such id");
-            return NoContent();
-        }
-
         [HttpGet("teacher-classes-with-ids/{userId}")]
         public async Task<IActionResult> GetAllClassesForASpecificTeacher(int userId)
         {
@@ -153,20 +160,6 @@ namespace MyClass.Controllers.AdminRole
                 return BadRequest("Entity is not found");
             }
             return Ok(result.Select(_mapper.Map<TeacherViewModel>));
-        }
-
-        [HttpPost("students-paged")]
-        public async Task<IActionResult> GetPagedStudents(GetPagedStudentsQuery query)
-        {
-            var pagedReviewsDto = await _mediator.Send(query);
-            return Ok(pagedReviewsDto);
-        }
-
-        [HttpPost("teachers-paged")]
-        public async Task<IActionResult> GetPagedTeachers(GetPagedTeachersQuery query)
-        {
-            var pagedReviewsDto = await _mediator.Send(query);
-            return Ok(pagedReviewsDto);
         }
 
         [HttpGet("about-info/{userId}")]
@@ -202,13 +195,6 @@ namespace MyClass.Controllers.AdminRole
             return Ok(_mapper.Map<TeacherRowViewModel>(result));
         }
 
-        [HttpPost("admins-paged")]
-        public async Task<IActionResult> GetPagedGrades(GetAdminsPagedQuery query)
-        {
-            var pagedGradesDto = await _mediator.Send(query);
-            return Ok(pagedGradesDto);
-        }
-
         [HttpGet("relations")]
         public async Task<IActionResult> GetAllRelations ()
         {
@@ -220,29 +206,27 @@ namespace MyClass.Controllers.AdminRole
             return Ok(result.Select(_mapper.Map<RelationViewModel>));
         }
 
-        [HttpGet("all-schedules")]
-        public async Task<IActionResult> GetAllSchedules()
-        {
-            var result = await _mediator.Send(new GetAllSchedulesQuery());
-            if (result == null)
-            {
-                return BadRequest("Entity is not found");
-            }
-            return Ok(result.Select(_mapper.Map<AllSchedulesViewModel>));
-        }
-
-        [HttpPost("schedule")]
-        public async Task<IActionResult> CreateNewSchedule([FromBody] CreateScheduleCommand command)
-        {
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
-
         [HttpPut("admin")]
         public async Task<IActionResult> UpdateAdmin([FromBody] UpdateAdminCommand command)
         {
             var result = await _mediator.Send(command);
             if (result == -1) return NotFound("There's no student with such id");
+            return NoContent();
+        }
+
+        [HttpPut("student")]
+        public async Task<IActionResult> UpdateStudent([FromBody] UpdateStudentCommand command)
+        {
+            var result = await _mediator.Send(command);
+            if (result == -1) return NotFound("There's no student with such id");
+            return NoContent();
+        }
+
+        [HttpPut("teacher")]
+        public async Task<IActionResult> UpdateTeacher([FromBody] UpdateTeacherCommand command)
+        {
+            var result = await _mediator.Send(command);
+            if (result == -1) return NotFound("There's no teacher with such id");
             return NoContent();
         }
 
@@ -283,6 +267,22 @@ namespace MyClass.Controllers.AdminRole
         {
             var result = await _mediator.Send(new DeleteScheduleCommand { ScheduleId = scheduleId });
             if (result == -1) return NotFound("There's no schedule with such id");
+            return Ok(result);
+        }
+
+        [HttpDelete("student/{userId}")]
+        public async Task<IActionResult> DeleteStudentById(int userId)
+        {
+            var result = await _mediator.Send(new DeleteStudentCommand { UserId = userId });
+            if (result == -1) return NotFound("There's no student with such id");
+            return Ok(result);
+        }
+
+        [HttpDelete("teacher/{userId}")]
+        public async Task<IActionResult> DeleteTeacher(int userId)
+        {
+            var result = await _mediator.Send(new DeleteTeacherCommand { UserId = userId });
+            if (result == -1) return NotFound("There's no teacher with such id");
             return Ok(result);
         }
     }

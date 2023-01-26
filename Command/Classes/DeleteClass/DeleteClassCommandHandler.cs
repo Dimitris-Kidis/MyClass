@@ -28,19 +28,12 @@ namespace Command.Classes.DeleteClass
         }
         public Task<int> Handle(DeleteClassCommand request, CancellationToken cancellationToken)
         {
-            //if (!_classRepository.GetAll().Any(clas => clas.Id == request.ClassId)) return Task.FromResult(-1);
             var clas = _classRepository.FindBy(clas => clas.Id == request.ClassId).FirstOrDefault();
 
             var studs = _studentRepository.FindBy(stud => stud.ClassId == request.ClassId).Select(s => s.Id).ToList();
             var users = _userRepository.GetAll().ToList();
 
             var deleted = _userRepository.FindBy(us => studs.Contains((int)us.StudentId)).ToList();
-            //var deleteStudentsOfTheClass =
-            //    (from u in users
-            //     join stud in studs on u.StudentId equals stud.Id
-            //     where stud.ClassId == request.ClassId
-            //     select new User { }
-            //     ).ToList<User>();
 
             _userRepository.DeleteRange(deleted);
             _userRepository.Save();

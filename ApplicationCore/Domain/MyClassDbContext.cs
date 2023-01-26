@@ -39,10 +39,6 @@ namespace ApplicationCore.Domain
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
-            //builder.ApplyConfiguration(new StudentConfiguration());
-            //builder.ApplyConfiguration(new UserConfiguration());
-
         }
 
     }

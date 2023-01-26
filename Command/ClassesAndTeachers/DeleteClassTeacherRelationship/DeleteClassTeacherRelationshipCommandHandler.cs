@@ -34,16 +34,10 @@ namespace Command.ClassesAndTeachers.DeleteClassTeacherRelationship
 
             var grades = _gradeRepository.FindBy(grade => grade.TeacherId == teacherId && grade.SubjectId == subjectId).ToList();
 
-            var studs = _studentRepository.FindBy(stud => stud.ClassId == classId).Select(s => s.Id).ToList();
+            var studs = _studentRepository.FindBy(stud => stud.ClassId == classId).Select(student => student.Id).ToList();
 
 
             var deleted = grades.Where(us => studs.Contains((int)us.StudentId)).ToList();
-
-            //var gradesToDelete =
-            //    (from grade in grades
-            //     join stud in studs on grade.StudentId equals stud.Id
-            //     select new Grade { }
-            //     ).ToList<Grade>();
 
             _gradeRepository.DeleteRange(deleted);
             _gradeRepository.Save();

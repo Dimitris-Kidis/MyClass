@@ -33,6 +33,14 @@ namespace MyClass.Controllers.Common
             return Ok(result);
         }
 
+        [HttpPost("note")]
+        public async Task<IActionResult> CreateNewNote([FromBody] CreateNewNoteCommand command)
+        {
+            var result = await _mediator.Send(command);
+            if (result == -1) return BadRequest("There's no user with such id");
+            return Ok(result);
+        }
+
         [HttpGet("all-notes-for-user/{userId}")]
         public async Task<IActionResult> GetAllNotesByUserId(int userId)
         {
@@ -44,22 +52,6 @@ namespace MyClass.Controllers.Common
             return Ok(result.Select(_mapper.Map<NotesViewModel>));
         }
 
-        [HttpPost("note")]
-        public async Task<IActionResult> CreateNewNote([FromBody] CreateNewNoteCommand command)
-        {
-            var result = await _mediator.Send(command);
-            if (result == -1) return BadRequest("There's no user with such id");
-            return Ok(result);
-        }
-
-        [HttpDelete("{noteId}")]
-        public async Task<IActionResult> DeleteNoteByNoteId(int noteId)
-        {
-            var result = await _mediator.Send(new DeleteNoteByIdCommand { Id = noteId });
-            if (result == -1) return NotFound("There's no note with such id");
-            return Ok(result);
-        }
-
         [HttpGet("schedule/{scheduleId}")]
         public async Task<IActionResult> GetSchedule(int scheduleId)
         {
@@ -69,6 +61,14 @@ namespace MyClass.Controllers.Common
                 return BadRequest("Entity is not found");
             }
             return Ok(_mapper.Map<ScheduleViewModel>(result));
+        }
+
+        [HttpDelete("{noteId}")]
+        public async Task<IActionResult> DeleteNoteByNoteId(int noteId)
+        {
+            var result = await _mediator.Send(new DeleteNoteByIdCommand { Id = noteId });
+            if (result == -1) return NotFound("There's no note with such id");
+            return Ok(result);
         }
     }
 }
