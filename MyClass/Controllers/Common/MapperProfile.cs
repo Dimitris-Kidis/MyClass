@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MyClass.Controllers.Common.ViewModels;
 using Query.Notes.GetAllNotes;
+using Query.Posts.GetAllPosts;
 using Query.Schedules.GetScheduleInfo;
 using Query.Users.GetUser;
 
@@ -17,6 +18,9 @@ namespace MyClass.Controllers.Common
 
             CreateMap<ScheduleDto, ScheduleViewModel>();
             //CreateMap<IEnumerable<Query.Schedules.GetScheduleInfo.ScheduleDto>, IEnumerable<ScheduleViewModel>>();
+
+            CreateMap<PostDto, PostViewModel>();
+            CreateMap<IEnumerable<PostDto>, IEnumerable<PostViewModel>>();
 
         }
 

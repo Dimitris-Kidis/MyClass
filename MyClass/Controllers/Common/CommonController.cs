@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MyClass.Controllers.Common.ViewModels;
 using Query.Notes.GetAllNotes;
+using Query.Posts.GetAllPosts;
 using Query.Schedules.GetScheduleInfo;
 using Query.Users.GetUser;
 using Query.Users.GetUser;
@@ -69,6 +70,17 @@ namespace MyClass.Controllers.Common
             var result = await _mediator.Send(new DeleteNoteByIdCommand { Id = noteId });
             if (result == -1) return NotFound("There's no note with such id");
             return Ok(result);
+        }
+
+        [HttpGet("all-posts/{target}")]
+        public async Task<IActionResult> GetAllPostsForTarget(int target)
+        {
+            var result = await _mediator.Send(new GetAllPostsQuery { Target = target });
+            if (result == null || result.Count() == 0)
+            {
+                return BadRequest("Entity is not found");
+            }
+            return Ok(result.Select(_mapper.Map<PostViewModel>));
         }
     }
 }

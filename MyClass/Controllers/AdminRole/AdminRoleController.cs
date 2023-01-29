@@ -5,6 +5,9 @@ using Command.Classes.CreateClass;
 using Command.Classes.DeleteClass;
 using Command.ClassesAndTeachers.CreateNewClassTeacherRelationship;
 using Command.ClassesAndTeachers.DeleteClassTeacherRelationship;
+using Command.Posts.CreatePost;
+using Command.Posts.DeletePost;
+using Command.Posts.UpdatePost;
 using Command.Schedules.CreateSchedule;
 using Command.Schedules.DeleteSchedule;
 using Command.Students.DeleteStudent;
@@ -23,6 +26,7 @@ using Query.Classes.GetAllClassesForTeacher;
 using Query.Classes.GetAllClassesWithIds;
 using Query.Classes.GetClassesAndSubjectsForTeacher;
 using Query.Improvements.GetAllImprovements;
+using Query.Posts.GetOnePost;
 using Query.Relations.GetAllRelations;
 using Query.Schedules.GetAllSchedules;
 using Query.Students.GetStudent;
@@ -284,6 +288,41 @@ namespace MyClass.Controllers.AdminRole
             var result = await _mediator.Send(new DeleteTeacherCommand { UserId = userId });
             if (result == -1) return NotFound("There's no teacher with such id");
             return Ok(result);
+        }
+
+        [HttpPost("post")]
+        public async Task<IActionResult> CreateNewPost([FromBody] CreatePostCommand command)
+        {
+            var result = await _mediator.Send(command);
+            return Ok(result);
+        }
+
+        [HttpPut("post")]
+        public async Task<IActionResult> UpdatePost([FromBody] UpdatePostCommand command)
+        {
+            var result = await _mediator.Send(command);
+            if (result == -1) return NotFound("There's no post with such id");
+            return NoContent();
+        }
+
+
+        [HttpDelete("post/{postId}")]
+        public async Task<IActionResult> DeletePost(int postId)
+        {
+            var result = await _mediator.Send(new DeletePostCommand { PostId = postId });
+            if (result == -1) return NotFound("There's no post with such id");
+            return Ok(result);
+        }
+
+        [HttpGet("post/{postId}")]
+        public async Task<IActionResult> GetPost(int postId)
+        {
+            var result = await _mediator.Send(new GetOnePostQuery { PostId = postId });
+            if (result == null)
+            {
+                return BadRequest("Entity is not found");
+            }
+            return Ok(_mapper.Map<OnePostViewModel>(result));
         }
     }
 }

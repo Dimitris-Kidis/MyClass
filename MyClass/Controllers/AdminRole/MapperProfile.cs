@@ -4,6 +4,7 @@ using Query.Admins.GetAdminAboutInfo;
 using Query.Classes.GetAllClassesWithIds;
 using Query.Classes.GetClassesAndSubjectsForTeacher;
 using Query.Improvements.GetAllImprovements;
+using Query.Posts.GetOnePost;
 using Query.Relations.GetAllRelations;
 using Query.Schedules.GetAllSchedules;
 using Query.Students.GetStudent;
@@ -40,6 +41,9 @@ namespace MyClass.Controllers.AdminRole
 
             CreateMap<GetAllSchedulesDto, AllSchedulesViewModel>();
             CreateMap<IEnumerable<GetAllSchedulesDto>, IEnumerable<AllSchedulesViewModel>>();
+
+            CreateMap<OnePostDto, OnePostViewModel>();
+
 
         }
 

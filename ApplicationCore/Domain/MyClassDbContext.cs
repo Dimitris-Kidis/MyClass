@@ -19,6 +19,7 @@ namespace ApplicationCore.Domain
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Improvement> Improvements { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
 
         public MyClassDbContext()
