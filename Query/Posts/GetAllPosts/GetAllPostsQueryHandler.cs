@@ -25,25 +25,10 @@ namespace Query.Posts.GetAllPosts
 
         public async Task<IEnumerable<PostDto>> Handle(GetAllPostsQuery request, CancellationToken cancellationToken)
         {
-            if ( request.Target == 5)
+            if (request.Target == 4)
             {
                 var posts = _postsRepository
                 .GetAll()
-                .OrderByDescending(post => post.CreatedAt);
-
-                return posts.Select(_mapper.Map<PostDto>);
-            } else if ( request.Target == 4)
-            {
-                var posts = _postsRepository
-                .FindBy(post => post.Target == 4)
-                .OrderByDescending(post => post.CreatedAt);
-
-                return posts.Select(_mapper.Map<PostDto>);
-            }
-            else if (request.Target == 3)
-            {
-                var posts = _postsRepository
-                .FindBy(post => post.Target == 3)
                 .OrderByDescending(post => post.CreatedAt);
 
                 return posts.Select(_mapper.Map<PostDto>);
@@ -51,7 +36,7 @@ namespace Query.Posts.GetAllPosts
             else if (request.Target == 2)
             {
                 var posts = _postsRepository
-                .FindBy(post => post.Target == 2)
+                .FindBy(post => post.Target == 2 || post.Target == 3)
                 .OrderByDescending(post => post.CreatedAt);
 
                 return posts.Select(_mapper.Map<PostDto>);
@@ -59,7 +44,7 @@ namespace Query.Posts.GetAllPosts
             else
             {
                 var posts = _postsRepository
-                .FindBy(post => post.Target == 1)
+                .FindBy(post => post.Target == 1 || post.Target == 3)
                 .OrderByDescending(post => post.CreatedAt);
 
                 return posts.Select(_mapper.Map<PostDto>);
