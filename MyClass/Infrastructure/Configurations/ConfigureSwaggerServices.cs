@@ -17,7 +17,7 @@ namespace MyClass.Infrastructure.Configurations
                     Description = "MyClass Online Journal API Services.",
                     Contact = new OpenApiContact
                     {
-                        Name = "Nikita Macheev"
+                        Name = "Dmitrii"
                     },
                 });
                 c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
